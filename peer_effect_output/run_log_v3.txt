@@ -1,0 +1,83 @@
+[0s] Reading 70 columns ...
+[38s] Loaded 587,213 rows | 0.79 GB
+[39s] After track filter: 587,213 rows
+[39s] Building familiarity ...
+[69s] avg_n_prior: mean=0.46 median=0.12
+[69s] Building peer variables ...
+[74s] Analysis sample: 371,814 obs | 49,168 athletes | 5,180 competitions
+[74s] Familiarity bins: {'Never': 49620, '1x': 243658, '2-3x': 67281, '4-6x': 10131, '7+x': 1124}
+[74s] High quality: 55.3%
+[74s] 
+=== HOX x familiarity x quality ===
+[83s]   Linear-in-means      | high | Never: b=+0.0432  SE=0.0194**   N= 20,366
+[87s]   Linear-in-means      | high | 1x   : b=-0.0107  SE=0.0085     N=128,525
+[88s]   Linear-in-means      | high | 2-3x : b=+0.0123  SE=0.0142     N= 38,262
+[88s]   Linear-in-means      | high | 7+x  : b=+0.1686  SE=0.1614     N=    582
+[88s]   Linear-in-means      | low  | Never: b=+0.2116  SE=0.0175***  N= 16,817
+[91s]   Linear-in-means      | low  | 1x   : b=+0.1086  SE=0.0074***  N=102,950
+[93s]   Linear-in-means      | low  | 2-3x : b=+0.2371  SE=0.0156***  N= 25,464
+[93s]   Linear-in-means      | low  | 7+x  : b=+0.7565  SE=0.1543***  N=    389
+[94s]   Bad Apple            | high | Never: b=-0.0030  SE=0.0133     N= 20,366
+[102s]   Bad Apple            | high | 1x   : b=-0.0156  SE=0.0047***  N=128,525
+[103s]   Bad Apple            | high | 2-3x : b=-0.0007  SE=0.0083     N= 38,262
+[103s]   Bad Apple            | high | 7+x  : b=+0.0995  SE=0.0653     N=    582
+[104s]   Bad Apple            | low  | Never: b=+0.0415  SE=0.0140***  N= 16,817
+[106s]   Bad Apple            | low  | 1x   : b=+0.0185  SE=0.0045***  N=102,950
+[107s]   Bad Apple            | low  | 2-3x : b=+0.0685  SE=0.0079***  N= 25,464
+[108s]   Bad Apple            | low  | 7+x  : b=+0.2545  SE=0.1026**   N=    389
+[109s]   Shining Light        | high | Never: b=+0.0619  SE=0.0144***  N= 20,366
+[117s]   Shining Light        | high | 1x   : b=+0.0184  SE=0.0060***  N=128,525
+[118s]   Shining Light        | high | 2-3x : b=+0.0584  SE=0.0114***  N= 38,262
+[118s]   Shining Light        | high | 7+x  : b=+0.2146  SE=0.1668     N=    582
+[118s]   Shining Light        | low  | Never: b=+0.1985  SE=0.0136***  N= 16,817
+[120s]   Shining Light        | low  | 1x   : b=+0.0950  SE=0.0058***  N=102,950
+[122s]   Shining Light        | low  | 2-3x : b=+0.1485  SE=0.0132***  N= 25,464
+[122s]   Shining Light        | low  | 7+x  : b=+0.7945  SE=0.1778***  N=    389
+[123s]   Invidious            | high | Never: b=+0.0713  SE=0.0025***  N= 20,366
+[130s]   Invidious            | high | 1x   : b=+0.0777  SE=0.0012***  N=128,525
+[131s]   Invidious            | high | 2-3x : b=+0.0444  SE=0.0027***  N= 38,262
+[132s]   Invidious            | high | 7+x  : b=+0.0410  SE=0.0314     N=    582
+[132s]   Invidious            | low  | Never: b=+0.0801  SE=0.0019***  N= 16,817
+[137s]   Invidious            | low  | 1x   : b=+0.0764  SE=0.0008***  N=102,950
+[138s]   Invidious            | low  | 2-3x : b=+0.0551  SE=0.0024***  N= 25,464
+[138s]   Invidious            | low  | 7+x  : b=+0.0830  SE=0.0511     N=    389
+[139s]   Boutique             | high | Never: b=+0.0115  SE=0.0027***  N= 20,366
+[146s]   Boutique             | high | 1x   : b=+0.0190  SE=0.0012***  N=128,525
+[148s]   Boutique             | high | 2-3x : b=+0.0284  SE=0.0022***  N= 38,262
+[148s]   Boutique             | high | 7+x  : b=+0.0302  SE=0.0137**   N=    582
+[149s]   Boutique             | low  | Never: b=+0.0107  SE=0.0021***  N= 16,817
+[152s]   Boutique             | low  | 1x   : b=+0.0210  SE=0.0010***  N=102,950
+[153s]   Boutique             | low  | 2-3x : b=+0.0461  SE=0.0018***  N= 25,464
+[153s]   Boutique             | low  | 7+x  : b=+0.0670  SE=0.0198***  N=    389
+[154s]   Focus/Rainbow        | high | Never: b=-0.0010  SE=0.0024     N= 17,941
+[161s]   Focus/Rainbow        | high | 1x   : b=+0.0020  SE=0.0009**   N=126,695
+[162s]   Focus/Rainbow        | high | 2-3x : b=-0.0020  SE=0.0017     N= 37,942
+[162s]   Focus/Rainbow        | high | 7+x  : b=-0.0110  SE=0.0096     N=    580
+[162s]   Focus/Rainbow        | low  | Never: b=+0.0022  SE=0.0026     N= 14,099
+[164s]   Focus/Rainbow        | low  | 1x   : b=+0.0009  SE=0.0008     N=100,832
+[165s]   Focus/Rainbow        | low  | 2-3x : b=-0.0065  SE=0.0014***  N= 25,205
+[165s]   Focus/Rainbow        | low  | 7+x  : b=-0.0394  SE=0.0187**   N=    384
+[166s]   Single Cross         | high | Never: b=+0.0791  SE=0.0034***  N= 20,366
+[175s]   Single Cross         | high | 1x   : b=+0.0768  SE=0.0015***  N=128,525
+[176s]   Single Cross         | high | 2-3x : b=+0.0422  SE=0.0036***  N= 38,262
+[176s]   Single Cross         | high | 7+x  : b=+0.0539  SE=0.0313*    N=    582
+[176s]   Single Cross         | low  | Never: b=-0.0899  SE=0.0025***  N= 16,817
+[179s]   Single Cross         | low  | 1x   : b=-0.0862  SE=0.0011***  N=102,950
+[180s]   Single Cross         | low  | 2-3x : b=-0.0670  SE=0.0031***  N= 25,464
+[181s]   Single Cross         | low  | 7+x  : b=-0.0543  SE=0.0734     N=    389
+[181s] Table3 saved.
+[181s] 
+=== Amplification slopes ===
+[181s]   Linear-in-means     : high delta=+0.1253  low delta=+0.5449
+[181s]   Bad Apple           : high delta=+0.1025  low delta=+0.2131
+[181s]   Shining Light       : high delta=+0.1527  low delta=+0.5960
+[181s]   Invidious           : high delta=-0.0303  low delta=+0.0029
+[181s]   Boutique            : high delta=+0.0187  low delta=+0.0564
+[181s]   Focus/Rainbow       : high delta=-0.0100  low delta=-0.0416
+[181s] 
+=== Generating figures ===
+[187s] Fig 7 saved.
+[191s] Fig 8 saved.
+[193s] Fig 9 saved.
+[193s] 
+Done. Total: 193s

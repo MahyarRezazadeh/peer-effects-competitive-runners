@@ -1,0 +1,172 @@
+[0s] Reading metadata ...
+[0s] Reading 70 columns ...
+[31s] Loaded 587,213 rows | 0.74 GB
+[32s] After track filter: 587,213 rows | racetype counts: {1.0: 345467, 2.0: 188183, 3.0: 53563}
+[32s] Building familiarity ...
+[93s] avg_n_prior: mean=0.46  p25=0.00  p50=0.12  p95=2.00
+[93s] Familiarity bins: {'1x': 253554, 'Never': 252628, '2-3x': 69468, '4-6x': 10415, '7+x': 1148}
+[93s] Building peer quality variables ...
+[145s] Analysis sample: 371,814 obs | 84,457 athletes | 6,125 competitions
+[145s] Quality split: high_quality=1: 47.4%
+[145s] 
+=== HOX x Familiarity x Opponent Quality ===
+[157s]   WARN [z_opp_mean_past]: invalid syntax (<unknown>, line 1)
+[157s]   Linear-in-means | high quality | Never: b=+nan  SE=nan  N= 23,954
+[158s]   WARN [z_opp_mean_past]: invalid syntax (<unknown>, line 1)
+[158s]   Linear-in-means | high quality | 1x   : b=+nan  SE=nan  N=127,313
+[158s]   WARN [z_opp_mean_past]: invalid syntax (<unknown>, line 1)
+[158s]   Linear-in-means | high quality | 2-3x : b=+nan  SE=nan  N= 37,566
+[158s]   WARN [z_opp_mean_past]: invalid syntax (<unknown>, line 1)
+[158s]   Linear-in-means | high quality | 7+x  : b=+nan  SE=nan  N=    514
+[158s]   WARN [z_opp_mean_past]: invalid syntax (<unknown>, line 1)
+[158s]   Linear-in-means | low  quality | Never: b=+nan  SE=nan  N= 25,651
+[158s]   WARN [z_opp_mean_past]: invalid syntax (<unknown>, line 1)
+[158s]   Linear-in-means | low  quality | 1x   : b=+nan  SE=nan  N=116,219
+[158s]   WARN [z_opp_mean_past]: invalid syntax (<unknown>, line 1)
+[158s]   Linear-in-means | low  quality | 2-3x : b=+nan  SE=nan  N= 29,700
+[158s]   WARN [z_opp_mean_past]: invalid syntax (<unknown>, line 1)
+[158s]   Linear-in-means | low  quality | 7+x  : b=+nan  SE=nan  N=    610
+[158s]   WARN [z_opp_min_past]: invalid syntax (<unknown>, line 1)
+[159s]   Bad Apple | high quality | Never: b=+nan  SE=nan  N= 23,954
+[159s]   WARN [z_opp_min_past]: invalid syntax (<unknown>, line 1)
+[159s]   Bad Apple | high quality | 1x   : b=+nan  SE=nan  N=127,313
+[159s]   WARN [z_opp_min_past]: invalid syntax (<unknown>, line 1)
+[159s]   Bad Apple | high quality | 2-3x : b=+nan  SE=nan  N= 37,566
+[159s]   WARN [z_opp_min_past]: invalid syntax (<unknown>, line 1)
+[159s]   Bad Apple | high quality | 7+x  : b=+nan  SE=nan  N=    514
+[159s]   WARN [z_opp_min_past]: invalid syntax (<unknown>, line 1)
+[159s]   Bad Apple | low  quality | Never: b=+nan  SE=nan  N= 25,651
+[159s]   WARN [z_opp_min_past]: invalid syntax (<unknown>, line 1)
+[159s]   Bad Apple | low  quality | 1x   : b=+nan  SE=nan  N=116,219
+[159s]   WARN [z_opp_min_past]: invalid syntax (<unknown>, line 1)
+[159s]   Bad Apple | low  quality | 2-3x : b=+nan  SE=nan  N= 29,700
+[159s]   WARN [z_opp_min_past]: invalid syntax (<unknown>, line 1)
+[159s]   Bad Apple | low  quality | 7+x  : b=+nan  SE=nan  N=    610
+[160s]   WARN [z_opp_max_past]: invalid syntax (<unknown>, line 1)
+[160s]   Shining Light | high quality | Never: b=+nan  SE=nan  N= 23,954
+[160s]   WARN [z_opp_max_past]: invalid syntax (<unknown>, line 1)
+[160s]   Shining Light | high quality | 1x   : b=+nan  SE=nan  N=127,313
+[160s]   WARN [z_opp_max_past]: invalid syntax (<unknown>, line 1)
+[160s]   Shining Light | high quality | 2-3x : b=+nan  SE=nan  N= 37,566
+[160s]   WARN [z_opp_max_past]: invalid syntax (<unknown>, line 1)
+[160s]   Shining Light | high quality | 7+x  : b=+nan  SE=nan  N=    514
+[160s]   WARN [z_opp_max_past]: invalid syntax (<unknown>, line 1)
+[160s]   Shining Light | low  quality | Never: b=+nan  SE=nan  N= 25,651
+[160s]   WARN [z_opp_max_past]: invalid syntax (<unknown>, line 1)
+[160s]   Shining Light | low  quality | 1x   : b=+nan  SE=nan  N=116,219
+[161s]   WARN [z_opp_max_past]: invalid syntax (<unknown>, line 1)
+[161s]   Shining Light | low  quality | 2-3x : b=+nan  SE=nan  N= 29,700
+[161s]   WARN [z_opp_max_past]: invalid syntax (<unknown>, line 1)
+[161s]   Shining Light | low  quality | 7+x  : b=+nan  SE=nan  N=    610
+[161s]   WARN [z_rank_in_field]: invalid syntax (<unknown>, line 1)
+[161s]   Invidious Comp. | high quality | Never: b=+nan  SE=nan  N= 23,954
+[161s]   WARN [z_rank_in_field]: invalid syntax (<unknown>, line 1)
+[161s]   Invidious Comp. | high quality | 1x   : b=+nan  SE=nan  N=127,313
+[161s]   WARN [z_rank_in_field]: invalid syntax (<unknown>, line 1)
+[161s]   Invidious Comp. | high quality | 2-3x : b=+nan  SE=nan  N= 37,566
+[161s]   WARN [z_rank_in_field]: invalid syntax (<unknown>, line 1)
+[161s]   Invidious Comp. | high quality | 7+x  : b=+nan  SE=nan  N=    514
+[162s]   WARN [z_rank_in_field]: invalid syntax (<unknown>, line 1)
+[162s]   Invidious Comp. | low  quality | Never: b=+nan  SE=nan  N= 25,651
+[162s]   WARN [z_rank_in_field]: invalid syntax (<unknown>, line 1)
+[162s]   Invidious Comp. | low  quality | 1x   : b=+nan  SE=nan  N=116,219
+[162s]   WARN [z_rank_in_field]: invalid syntax (<unknown>, line 1)
+[162s]   Invidious Comp. | low  quality | 2-3x : b=+nan  SE=nan  N= 29,700
+[162s]   WARN [z_rank_in_field]: invalid syntax (<unknown>, line 1)
+[162s]   Invidious Comp. | low  quality | 7+x  : b=+nan  SE=nan  N=    610
+[162s]   WARN [z_frac_similar]: invalid syntax (<unknown>, line 1)
+[163s]   Boutique | high quality | Never: b=+nan  SE=nan  N= 23,954
+[163s]   WARN [z_frac_similar]: invalid syntax (<unknown>, line 1)
+[163s]   Boutique | high quality | 1x   : b=+nan  SE=nan  N=127,313
+[163s]   WARN [z_frac_similar]: invalid syntax (<unknown>, line 1)
+[163s]   Boutique | high quality | 2-3x : b=+nan  SE=nan  N= 37,566
+[163s]   WARN [z_frac_similar]: invalid syntax (<unknown>, line 1)
+[163s]   Boutique | high quality | 7+x  : b=+nan  SE=nan  N=    514
+[163s]   WARN [z_frac_similar]: invalid syntax (<unknown>, line 1)
+[163s]   Boutique | low  quality | Never: b=+nan  SE=nan  N= 25,651
+[164s]   WARN [z_frac_similar]: invalid syntax (<unknown>, line 1)
+[164s]   Boutique | low  quality | 1x   : b=+nan  SE=nan  N=116,219
+[164s]   WARN [z_frac_similar]: invalid syntax (<unknown>, line 1)
+[164s]   Boutique | low  quality | 2-3x : b=+nan  SE=nan  N= 29,700
+[164s]   WARN [z_frac_similar]: invalid syntax (<unknown>, line 1)
+[164s]   Boutique | low  quality | 7+x  : b=+nan  SE=nan  N=    610
+[164s]   WARN [z_opp_sd_past]: invalid syntax (<unknown>, line 1)
+[164s]   Focus/Rainbow | high quality | Never: b=+nan  SE=nan  N= 21,717
+[164s]   WARN [z_opp_sd_past]: invalid syntax (<unknown>, line 1)
+[164s]   Focus/Rainbow | high quality | 1x   : b=+nan  SE=nan  N=125,701
+[164s]   WARN [z_opp_sd_past]: invalid syntax (<unknown>, line 1)
+[164s]   Focus/Rainbow | high quality | 2-3x : b=+nan  SE=nan  N= 37,255
+[165s]   WARN [z_opp_sd_past]: invalid syntax (<unknown>, line 1)
+[165s]   Focus/Rainbow | high quality | 7+x  : b=+nan  SE=nan  N=    505
+[165s]   WARN [z_opp_sd_past]: invalid syntax (<unknown>, line 1)
+[165s]   Focus/Rainbow | low  quality | Never: b=+nan  SE=nan  N= 22,247
+[165s]   WARN [z_opp_sd_past]: invalid syntax (<unknown>, line 1)
+[166s]   Focus/Rainbow | low  quality | 1x   : b=+nan  SE=nan  N=113,775
+[166s]   WARN [z_opp_sd_past]: invalid syntax (<unknown>, line 1)
+[166s]   Focus/Rainbow | low  quality | 2-3x : b=+nan  SE=nan  N= 29,330
+[166s]   WARN [z_opp_sd_past]: invalid syntax (<unknown>, line 1)
+[166s]   Focus/Rainbow | low  quality | 7+x  : b=+nan  SE=nan  N=    595
+[166s]   WARN [z_SC]: invalid syntax (<unknown>, line 1)
+[166s]   Single Crossing | high quality | Never: b=+nan  SE=nan  N= 23,954
+[166s]   WARN [z_SC]: invalid syntax (<unknown>, line 1)
+[166s]   Single Crossing | high quality | 1x   : b=+nan  SE=nan  N=127,313
+[167s]   WARN [z_SC]: invalid syntax (<unknown>, line 1)
+[167s]   Single Crossing | high quality | 2-3x : b=+nan  SE=nan  N= 37,566
+[167s]   WARN [z_SC]: invalid syntax (<unknown>, line 1)
+[167s]   Single Crossing | high quality | 7+x  : b=+nan  SE=nan  N=    514
+[167s]   WARN [z_SC]: invalid syntax (<unknown>, line 1)
+[168s]   Single Crossing | low  quality | Never: b=+nan  SE=nan  N= 25,651
+[168s]   WARN [z_SC]: invalid syntax (<unknown>, line 1)
+[168s]   Single Crossing | low  quality | 1x   : b=+nan  SE=nan  N=116,219
+[168s]   WARN [z_SC]: invalid syntax (<unknown>, line 1)
+[168s]   Single Crossing | low  quality | 2-3x : b=+nan  SE=nan  N= 29,700
+[168s]   WARN [z_SC]: invalid syntax (<unknown>, line 1)
+[168s]   Single Crossing | low  quality | 7+x  : b=+nan  SE=nan  N=    610
+[168s] 
+=== Generating Figures ===
+[172s] Fig 7 saved.
+[173s] Fig 8 saved.
+[173s] 
+=== Amplification slope: delta_beta = beta(7+x) - beta(Never) ===
+[173s]   Linear-in-means: high Δβ=+nan  low Δβ=+nan
+[173s]   Shining Light: high Δβ=+nan  low Δβ=+nan
+[173s]   Bad Apple: high Δβ=+nan  low Δβ=+nan
+[173s]   Invidious Comp.: high Δβ=+nan  low Δβ=+nan
+[173s]   Boutique: high Δβ=+nan  low Δβ=+nan
+[173s]   Focus/Rainbow: high Δβ=+nan  low Δβ=+nan
+[175s] Fig 9 saved.
+[175s] 
+=== Summary Statistics ===
+[177s]        deviation_speed  opp_mean_past   opp_max_past   opp_min_past    opp_sd_past   frac_similar  rank_in_field    avg_n_prior  race_distance_meters          temp0     north_wind      east_wind    n_opponents  deviation_speed
+count    379358.000000  556213.000000  556213.000000  556213.000000  529104.000000  383296.000000  383296.000000  587213.000000         587213.000000  586960.000000  586960.000000  586960.000000  587213.000000    379358.000000
+mean         -0.076514       7.525897       7.789392       7.239860       0.185700       0.484751       0.648235       0.463345           1165.552193      19.080640       0.071559       0.107352      23.570136        -0.076514
+std           0.201964       1.364853       1.405309       1.337166       0.082299       0.288703       0.339376       0.814183           1978.176431       7.657166       1.719509       1.845799      23.812923         0.201964
+min          -8.199016       4.026932       4.026932       2.977963       0.000000       0.000000       0.000000       0.000000            100.000000     -35.347618      -8.219506      -8.895903       0.000000        -8.199016
+10%          -0.294911       5.621145       5.835441       5.372589       0.097529       0.055556       0.095238       0.000000            100.000000       9.111750      -1.971796      -2.110247       5.000000        -0.294911
+25%          -0.177733       6.318040       6.546253       6.080216       0.133320       0.250000       0.375000       0.000000            200.000000      15.570398      -0.874890      -0.833234       9.000000        -0.177733
+50%          -0.066862       7.837333       8.041822       7.513148       0.176447       0.500000       0.750000       0.125000            400.000000      20.054956       0.048437       0.082942      17.000000        -0.066862
+75%           0.033422       8.676304       8.970016       8.361204       0.226489       0.705882       1.000000       0.600000           1500.000000      24.217981       0.965175       1.086843      29.000000         0.033422
+90%           0.131723       9.260035       9.580669       8.934999       0.281913       0.869565       1.000000       1.333333           3000.000000      27.293116       2.097566       2.288481      50.000000         0.131723
+max           5.934693      10.040900      10.379166       9.990009       2.838331       1.000000       1.000000      17.000000          10000.000000      39.710320      10.034082      10.117224     239.000000         5.934693
+[178s] 
+  Racetype Sprint (n=345,467):
+[178s]     deviation_speed: mean=-0.086 sd=0.219 p25=-0.192 p75=0.029
+[178s]     opp_mean_past: mean=8.489 sd=0.732 p25=8.032 p75=9.134
+[178s]     avg_n_prior: mean=0.495 sd=0.826 p25=0.000 p75=0.647
+[178s]     race_distance_meters: mean=212.480 sd=121.717 p25=100.000 p75=400.000
+[179s] 
+  Racetype Middle (n=188,183):
+[179s]     deviation_speed: mean=-0.066 sd=0.172 p25=-0.158 p75=0.035
+[179s]     opp_mean_past: mean=6.311 sd=0.637 p25=5.862 p75=6.872
+[179s]     avg_n_prior: mean=0.464 sd=0.858 p25=0.000 p75=0.562
+[179s]     race_distance_meters: mean=1367.221 sd=711.427 p25=800.000 p75=1500.000
+[180s] 
+  Racetype Long (n=53,563):
+[180s]     deviation_speed: mean=-0.044 sd=0.166 p25=-0.143 p75=0.055
+[180s]     opp_mean_past: mean=5.467 sd=0.432 p25=5.092 p75=5.800
+[180s]     avg_n_prior: mean=0.260 sd=0.485 p25=0.000 p75=0.333
+[180s]     race_distance_meters: mean=6604.092 sd=2333.978 p25=5000.000 p75=10000.000
+[180s] Summary stats CSV saved.
+[180s] Table 3 saved.
+[180s] 
+Done. Total elapsed: 180s

@@ -1,0 +1,111 @@
+[0s] Reading metadata from peer_data_ready.dta ...
+[0s] Total columns in file: 972
+[0s] Using K_MAX=25  |  opp_id cols: 25  |  past_perf cols: 25
+[0s] Reading 71 columns ...
+[32s] Loaded 587,213 rows  |  0.81 GB in memory
+[33s] After track-event filter: 587,213 rows  |  racetype counts: {1.0: 345467, 2.0: 188183, 3.0: 53563}
+[33s] Building familiarity variable ...
+[194s] avg_n_prior: mean=0.47  p25=0.00  p50=0.13  p75=0.60  p95=2.00
+[194s]   Obs with Never: 246,672  1x: 253,554  2-3x: 69,468  4-6x: 10,415  7+x: 1,148
+[194s] Building peer quality variables ...
+[197s] Analysis sample: 371,814 obs  |  49,168 athletes  |  5,180 competitions
+[197s] Familiarity bins: {'Never': 49620, '1×': 243658, '2–3×': 67281, '4–6×': 10131, '7+×': 1124}
+[197s] 
+=== A. Linear-in-means × familiarity ===
+[201s]   Never : b=+0.1037  SE=0.0128***  N=  38,118
+[207s]   1×    : b=+0.0322  SE=0.0058***  N= 232,899
+[209s]   2–3×  : b=+0.0810  SE=0.0110***  N=  63,965
+[210s]   WARN [z_opp_mean_past]: Demeaning failed after 10000 iterations.
+[210s]   4–6×  : b=+nan  SE=nann/a  N=       0
+[210s]   7+×   : b=+0.4063  SE=0.1351***  N=     981
+[210s] 
+=== B. Linear-in-means × familiarity × racetype ===
+[210s]   Sprint (≤400m):
+[211s]     Never : b=+0.0343  SE=0.0168**   N= 23,153
+[212s]     1×    : b=-0.0011  SE=0.0076     N=144,087
+[212s]     2–3×  : b=+0.0231  SE=0.0128*    N= 42,489
+[212s]     4–6×  : b=+0.1674  SE=0.0501***  N=  5,895
+[212s]     7+×   : b=+0.1992  SE=0.1546     N=    553
+[212s]   Middle (500–2000m):
+[212s]     Never : b=+0.2515  SE=0.0221***  N= 10,893
+[213s]     1×    : b=+0.1404  SE=0.0091***  N= 69,654
+[213s]     2–3×  : b=+0.2681  SE=0.0181***  N= 18,757
+[213s]     4–6×  : b=+0.3554  SE=0.0558***  N=  3,458
+[213s]     7+×   : b=+0.7045  SE=0.1499***  N=    420
+[213s]   Long (>2000m):
+[213s]     Never : b=+0.2406  SE=0.0448***  N=  2,453
+[213s]     1×    : b=+0.0309  SE=0.0205     N= 16,726
+[213s]     2–3×  : b=+0.4272  SE=0.0793***  N=  2,482
+[213s]     4–6×  : b=+nan  SE=nann/a  N=      0
+[213s]     7+×   : b=+nan  SE=nann/a  N=      0
+[213s] 
+=== C. HOX Models (pooled, standardized peer variable) ===
+[222s]   1. Linear-in-means            : b=+0.0369  SE=0.0045***  N=361,014
+[231s]   2. Bad Apple                  : b=-0.0016  SE=0.0026     N=361,014
+[240s]   3. Shining Light              : b=+0.0491  SE=0.0034***  N=361,014
+[250s]   4. Invidious Comp.            : b=+0.0762  SE=0.0006***  N=361,014
+[259s]   5. Boutique                   : b=+0.0187  SE=0.0006***  N=361,014
+[267s]   6/7. Focus / Rainbow          : b=+0.0013  SE=0.0005***  N=350,497
+[267s] 
+=== D. Bad Apple vs Shining Light × familiarity ===
+[268s]   Never : BadApple=+0.0057  Shining=+0.1129
+[279s]   1×    : BadApple=-0.0052  Shining=+0.0459
+[283s]   2–3×  : BadApple=+0.0200  Shining=+0.0831
+[285s]   WARN [z_opp_min_past]: Demeaning failed after 10000 iterations.
+[286s]   WARN [z_opp_max_past]: Demeaning failed after 10000 iterations.
+[286s]   4–6×  : BadApple=+nan  Shining=+nan
+[286s]   7+×   : BadApple=+0.1391  Shining=+0.4928
+[286s] 
+=== E. HOX × familiarity ===
+[296s]   WARN [z_opp_mean_past]: Demeaning failed after 10000 iterations.
+[296s]   1. Linear-in-means: done
+[306s]   WARN [z_opp_min_past]: Demeaning failed after 10000 iterations.
+[306s]   2. Bad Apple: done
+[316s]   WARN [z_opp_max_past]: Demeaning failed after 10000 iterations.
+[316s]   3. Shining Light: done
+[326s]   WARN [z_rank_in_field]: Demeaning failed after 10000 iterations.
+[326s]   4. Invidious Comp.: done
+[336s]   WARN [z_frac_similar]: Demeaning failed after 10000 iterations.
+[336s]   5. Boutique: done
+[345s]   WARN [z_opp_sd_past]: Demeaning failed after 10000 iterations.
+[345s]   6/7. Focus / Rainbow: done
+[345s] 
+=== F. Single Crossing ===
+[356s]   peer x rank decile: b=+0.0006  SE=0.0005  (Single Crossing: b>0 means top runners benefit more from good peers)
+[356s] 
+=== Generating figures ===
+[357s] Fig 1 saved.
+[357s] Fig 2 saved.
+[358s] Fig 3 saved.
+[358s] Fig 4 saved.
+[358s] Fig 5 saved.
+[359s] Fig 6 saved.
+[359s] 
+=== Exporting tables ===
+
+============================================================
+TABLE 1 — Peer Effect (Linear-in-means) by Familiarity
+============================================================
+Familiarity      β     SE  95% CI Low  95% CI Hi Sig      N
+      Never 0.1037 0.0128      0.0786     0.1287 ***  38118
+         1× 0.0322 0.0058      0.0209     0.0436 *** 232899
+       2–3× 0.0810 0.0110      0.0595     0.1025 ***  63965
+       4–6×    NaN    NaN         NaN        NaN n/a      0
+        7+× 0.4063 0.1351      0.1398     0.6728 ***    981
+
+============================================================
+TABLE 2 — HOX2007SCH Models (pooled, standardized peer var)
+============================================================
+               Model               Peer Var       β     SE  95% CI Low  95% CI Hi Sig      N
+  1. Linear-in-means        z_opp_mean_past  0.0369 0.0045      0.0280     0.0458 *** 361014
+        2. Bad Apple         z_opp_min_past -0.0016 0.0026     -0.0068     0.0036     361014
+    3. Shining Light         z_opp_max_past  0.0491 0.0034      0.0425     0.0558 *** 361014
+  4. Invidious Comp.        z_rank_in_field  0.0762 0.0006      0.0751     0.0774 *** 361014
+         5. Boutique         z_frac_similar  0.0187 0.0006      0.0174     0.0199 *** 361014
+6/7. Focus / Rainbow          z_opp_sd_past  0.0013 0.0005      0.0004     0.0023 *** 350497
+  8. Single Crossing z_opp_mean_past × rank  0.0006 0.0005     -0.0004     0.0016     361014
+
+============================================================
+Total elapsed: 359s
+Figures saved: C:\Users\mahya\OneDrive - Simon Fraser University (1sfu)\Desktop\Peer effect in competitive runners\peer_effect_output
+============================================================

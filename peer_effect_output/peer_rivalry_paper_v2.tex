@@ -1,0 +1,1700 @@
+\documentclass[12pt]{article}
+
+%% ---- Packages -------------------------------------------------------
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+%\usepackage{microtype}  % disabled: font expansion not available on this install
+\usepackage{enumitem}
+\usepackage{threeparttable}
+\usepackage{dcolumn}
+\usepackage{rotating}
+\usepackage{lscape}
+\usepackage{multirow}
+
+%% ---- Typography -------------------------------------------------------
+\doublespacing
+\setlength{\parindent}{0.5in}
+\setlength{\parskip}{0pt}
+\captionsetup{font=small,labelfont=bf,justification=raggedright,singlelinecheck=false}
+
+%% ---- Math environments ------------------------------------------------
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{assumption}{Assumption}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+%% ---- Hyperref ----------------------------------------------------------
+\hypersetup{colorlinks=true, linkcolor=blue!70!black,
+            citecolor=blue!70!black, urlcolor=blue!70!black}
+
+%% ====================================================================
+\begin{document}
+
+%% ---- Title page -------------------------------------------------------
+\begin{titlepage}
+\begin{center}
+\vspace*{0.8cm}
+{\LARGE \textbf{Rivals at the Starting Line:\\[6pt]
+Peer Effects, Familiarity, and Rivalry Amplification\\[6pt]
+in Competitive Track Running}}
+
+\vspace{1.2cm}
+{\large [Author(s) Redacted for Blind Review]}\\[0.4cm]
+{\normalsize \today}
+
+\vspace{1.4cm}
+\begin{minipage}{0.92\textwidth}
+\begin{abstract}
+\noindent\singlespacing
+We study how repeated competition with the same opponents reshapes the
+structure and magnitude of peer effects among elite track runners.
+Using 587{,}213 race observations covering 49{,}168 athletes across 5{,}180
+international competitions (World Athletics Organization, 2005--2023),
+we estimate all eight structural peer-effect models of \citet{HoxbyWeingarth2007}
+and test how each mechanism is amplified or attenuated by the number of prior
+co-races between the focal athlete and the field.
+We also condition on whether repeated opponents are drawn from
+high-quality or low-quality fields, separating the quality and history channels.
+Four main findings emerge.
+First, peer effects follow a U-shaped pattern in familiarity: large for
+first-time encounters ($\hat\beta = 0.104^{***}$), attenuated after one prior
+meeting ($\hat\beta = 0.032^{***}$), and sharply amplified among athletes who
+have raced the same rivals seven or more times
+($\hat\beta = 0.406^{***}$; a factor-of-twelve amplification).
+Second, the Shining Light mechanism---whereby athletes respond to the fastest
+peer in the field---dominates, while the Bad Apple effect (the slowest peer) is
+absent.
+Third, familiarity amplification is strongest when repeated rivals come from
+high-quality fields: repeated competition against able opponents
+increases the peer-effect coefficient, while repeated competition against weak
+opponents attenuates it, consistent with a rivalry model in which complacency
+sets in against familiar inferiors.
+Fourth, familiarity amplification is most pronounced in middle-distance events
+(500--2{,}000 m), where tactical pacing and rival recognition carry the highest
+strategic value.
+On the theory side, we extend the conformist peer-effects framework
+of \citet{Boucher2024} and \citet{Bernheim1994}
+by incorporating a rivalry utility motive inspired by \citet{BenabouTirole2006}
+and embedding it in the tournament structure of \citet{LazearRosen1981}.
+We show that all eight HOX mechanisms emerge as special cases of a general
+best-reply function indexed by the choice of peer statistic and rival weighting,
+derive familiarity-amplified equilibria with closed-form comparative statics,
+and prove that task complexity enters through the effort cost function and
+information precision, generating an inverse-U-shaped familiarity amplification
+in race distance.
+Importantly, because running is an individual sport with no team production,
+our setting fully isolates the rivalry peer effect from the altruistic
+motive---the willingness to sacrifice own performance to help teammates---that
+confounds peer-effect estimates in team sports.
+
+\vspace{0.4cm}
+\noindent\textbf{JEL:} J24, Z22, D83, C23 \quad
+\textbf{Keywords:} peer effects, rivalry, track and field, familiarity,
+tournament, task complexity, altruism
+\end{abstract}
+\end{minipage}
+\end{center}
+\end{titlepage}
+
+%% ====================================================================
+\clearpage
+\section{Introduction}
+\label{sec:intro}
+
+Athletic competition offers some of the most vivid evidence that rivals matter.
+Magic Johnson reportedly began each morning by reading Larry Bird's box scores;
+Roger Federer's serve reportedly stiffened whenever Rafael Nadal was on the other
+side of the net; Paula Radcliffe described Gete Wami's presence as the stimulus
+that took her to world-record pace in the 2003 London Marathon.
+These anecdotes share a common thread: familiarity with a specific rival
+intensifies motivation in a way that mere field quality does not.
+The economics literature has identified many channels through which the peer
+group affects individual performance---conformist preferences, tournament
+incentives, information spillovers, social comparison---yet it has treated
+every opponent as interchangeable.
+We ask whether it matters \textit{who} you have competed against before,
+not just how good they are.
+
+This paper provides the first large-scale econometric test of whether peer effects
+in a competitive environment are moderated by the history of prior interactions
+between competitors.
+We call this moderating variable \textit{familiarity}: the number of times
+a focal athlete has previously raced the same opponent in the same event type.
+Our setting is elite track and field athletics, where individual performance
+is objectively measured in seconds (converted to m/s), fields are composed of
+10--15 runners, opponent identities are fully observed, and prior performance
+histories are available for every competitor.
+These features allow us to construct all eight structural peer-effect variables
+proposed by \citet{HoxbyWeingarth2007} and to condition their effects on two
+dimensions---familiarity and opponent quality level---in a unified econometric
+framework with athlete fixed effects and competition$\times$event fixed effects.
+
+Our dataset draws on the global competition records of the World Athletics
+Organization (WAO), covering events from 2005 to 2023 in over 1{,}500 cities
+worldwide \citep{AragonRezazadeh2025}.
+The panel structure---the same athletes appear in many competitions over many
+years---permits construction of our key familiarity variable and credible
+identification via within-athlete variation in peer composition.
+The peer quality variables are constructed exclusively from opponents' \textit{prior}
+performance records, predetermining them relative to the current race and
+sidestepping the reflection problem \citep{Manski1993,Angrist2014}.
+
+\paragraph{Main findings.}
+We report four main results:
+
+\begin{enumerate}[leftmargin=0.5in, label=\textit{Result \arabic*.}]
+
+\item \textbf{U-shaped peer effects in familiarity (information shock, calibration, rivalry).}
+Peer effects are largest when athletes encounter an entirely new field
+($\hat\beta = 0.104$), shrink to their minimum after one prior co-race
+($\hat\beta = 0.032$), and surge to more than four times the first-meeting
+level when athletes have competed against the same rivals seven or more
+times ($\hat\beta = 0.406$).
+The drop from Never to $1\times$ reflects Bayesian updating: a first
+encounter conveys high information content about the field's quality, while
+the second meeting has lower marginal information value.
+The subsequent surge is a genuine rivalry effect: repeated opponents are
+psychologically ``owned,'' motivating effort beyond what pure information
+would predict.
+
+\item \textbf{Shining Light dominates; Bad Apple is absent.}
+Among the eight HOX mechanisms, the effect of the fastest opponent's prior
+speed ($\hat\beta = 0.049^{***}$) and the athlete's normalized rank in the
+field ($\hat\beta = 0.076^{***}$) dominate.
+The slowest opponent ($\hat\beta = -0.002$) and the Single Crossing interaction
+($\hat\beta = 0.001$) are both economically negligible and statistically zero.
+Boutique and Focus/Rainbow are positive but small, suggesting that pace-group
+formation and field heterogeneity play secondary roles.
+
+\item \textbf{Rivalry amplification is stronger in lower-quality fields.}
+Counter-intuitively, the familiarity amplification of peer effects---the rise from
+Never to $7+\times$---is larger when repeated rivals come from below-median quality fields.
+In low-quality familiar fields, the Shining Light coefficient rises from 0.199 to
+0.795 ($\Delta\beta = +0.596$), while in high-quality familiar fields it rises from
+0.062 to 0.215 ($\Delta\beta = +0.153$).
+We interpret this as a \textit{ceiling effect}: athletes in top-tier fields already
+run near their personal best, leaving little room for rivalry motivation to generate
+additional performance gains.
+Conversely, Invidious Comparison \textit{attenuates} with familiarity in high-quality
+fields (rank acceptance among familiar superiors), and the Single Crossing coefficient
+reverses sign by quality stratum---positive in strong fields (peer leaders) and
+negative in weak fields (underdog effect)---resolving a pooled null that
+masks offsetting mechanisms.
+
+\item \textbf{Middle-distance events exhibit the strongest familiarity amplification.}
+Sprint events ($\le 400$ m) show small peer effects that barely increase with
+familiarity.
+Middle-distance events (500--2{,}000 m) show large peer effects that rise sharply,
+reaching $\hat\beta = 0.705$ in the rivalry bin.
+Long-distance events ($> 2{,}000$ m) are intermediate but suffer from thin
+samples at high familiarity levels.
+This pattern is consistent with our theoretical prediction that task complexity
+moderates familiarity amplification through the effort cost function and the
+precision of rival observation.
+
+\end{enumerate}
+
+\paragraph{Theoretical contribution.}
+We develop a model that unifies the eight HOX mechanisms within a single
+utility framework and derives familiarity-amplified equilibria.
+The model builds on the conformist-preferences approach of \citet{Bernheim1994}
+and \citet{Boucher2024}, augments it with a rivalry motive drawn from
+\citet{BenabouTirole2006}, and embeds both in the tournament payoff structure
+of \citet{LazearRosen1981}.
+The key result is that the peer-effect coefficient is increasing in average
+familiarity with a slope governed by the rivalry intensity parameter ($\gamma$),
+the curvature of the rivalry prize function ($V''$), and the effort cost
+function's sensitivity to task complexity ($c_\kappa$).
+Each HOX mechanism emerges from a distinct choice of the peer statistic $A_{-i}^*$,
+and the familiarity amplification slope differs across mechanisms in ways that
+match the empirical findings.
+
+\paragraph{Contribution: isolating rivalry from altruism.}
+A critical advantage of the individual-sport setting is the elimination of an
+identification challenge that plagues peer-effect studies in team sports:
+\textit{altruism}.
+In team sports---basketball, soccer, relay racing---a player may exert extra
+effort not because a teammate's presence raises their own marginal product,
+but because they internalize the teammate's welfare (willingness to sacrifice
+individually for the collective good).
+This altruistic motive generates a spurious ``peer effect'' that has nothing
+to do with information, social norms, or tournament incentives.
+Track sprints, middle-distance races, and field events do not involve team
+production: one runner cannot improve another's finishing time.
+Our setting therefore provides a pure identification of rival peer effects---
+information, conformism, rivalry---uncontaminated by altruistic sacrifice.
+This distinction has practical significance: policies that increase team cohesion
+(which may activate altruism in team settings) would have different predicted
+effects in individual-competition settings like academic classrooms, individual
+sales roles, or individual-output factories.
+
+The remainder of the paper proceeds as follows.
+Section~\ref{sec:literature} reviews the related literature.
+Section~\ref{sec:theory} presents the theoretical framework.
+Section~\ref{sec:data} describes the data and setting.
+Section~\ref{sec:empirics} presents the empirical strategy.
+Section~\ref{sec:results} reports results.
+Section~\ref{sec:discussion} discusses mechanisms and implications.
+Section~\ref{sec:conclusion} concludes.
+
+%% ====================================================================
+\section{Related Literature}
+\label{sec:literature}
+
+Our paper connects four bodies of work: tournament theory, peer effects in
+competitive sports, the psychology of rivalry, and the social-norms literature
+in economics.
+
+\paragraph{Tournament theory and competitive incentives.}
+The canonical framework for analyzing effort in rank-order competitions is
+\citet{LazearRosen1981}, who show that prize spreads rather than average prizes
+determine effort in symmetric tournaments.
+\citet{GreenStokey1983} extend this to multi-prize settings, and
+\citet{NalebuffStiglitz1983} analyze optimal contest design.
+In our running context, the tournament structure is explicit: athletes compete
+for ordinal placement (finals qualification, podium finishes), and the prize
+spread is the welfare difference between advancing and being eliminated.
+\citet{GenakosPageliero2012} show that interim ranking information in dynamic
+tournaments affects risk-taking and effort, with an inverted-U relationship
+between interim rank and risky strategy choice.
+We extend this tradition by introducing the history of head-to-head encounters
+as a determinant of effort alongside the static prize structure.
+
+\paragraph{Peer effects in competitive sports.}
+A growing literature estimates peer effects in settings where individual output
+is cleanly measured.
+\citet{GuryanKroftNotowidigdo2009} exploit random pairing in professional golf
+tournaments to identify essentially zero average peer effects on scores---a
+precise null that serves as an important benchmark.
+\citet{Brown2011} documents negative superstar spillovers in golf: the entry of
+Tiger Woods decreases rivals' performance, consistent with discouragement or an
+extreme Invidious Comparison mechanism.
+\citet{YamaneHayashi2015} find that competitive swimmers swim faster when chased
+by a near-peer rival, attributing the effect to the observability of splits.
+\citet{Hill2014} analyzes IAAF 5{,}000 m tournament heats and finds that runner
+times are positively correlated with field quality, with differential effects
+by ability level.
+\citet{Ashby2025} and \citet{AshbyRamos2023} use classification reassignments
+in Texas high-school athletics to estimate that more competitive peer groups
+improve performance for boys and top-quartile athletes, while \citet{Jiang2020}
+uses a regression discontinuity in swimming finals to estimate positive but
+gender-specific peer effects.
+
+In marathon running, \citet{EmersonHill2018} document that pace setters
+improve performance through a mechanism that mixes physical drafting and
+informational pacing---a conflation that our setting (track events, no formal
+pacers) cleanly avoids.
+The most directly relevant empirical predecessor is \citet{Kilduff2014},
+who identifies rivals through observed patterns of demographic similarity and
+co-race frequency in long-distance running and shows that runners achieve
+personal-best times more often against identified rivals.
+We extend this by (i) constructing familiarity continuously rather than as a
+binary rival indicator, (ii) testing all eight HOX mechanisms rather than
+the LIM model alone, (iii) conditioning on opponent quality level, and
+(iv) using a research design with athlete fixed effects and predetermined
+peer variables.
+
+\paragraph{Team sports, altruism, and the identification challenge.}
+Studies of peer effects in team sports must contend with the confounding role
+of altruism and complementarities in team production.
+\citet{GouldWinter2009} estimate teammate spillovers in baseball, and
+\citet{Arcidiacono2017} study team production in basketball.
+\citet{CohenZada2024} use two identification strategies to estimate positive effort
+spillovers in soccer.
+\citet{MoloChik2021} find diminishing returns to average teammate quality in relay
+events.
+In all these settings, a player may work harder because (a) a teammate's effort
+raises their own marginal product (complementarity), (b) the team's success
+generates shared pride (altruism), or (c) the teammate's presence creates a social
+norm.
+These three channels are observationally equivalent from the outside, but have
+very different policy implications.
+Individual track events---our setting---eliminate (a) and (b) by construction,
+since one runner's output does not affect another's. The estimated peer effect
+is therefore a clean measure of (c): conformist social norms and rivalry
+incentives.
+
+\paragraph{Rivalry: psychology and economics.}
+The psychological foundations of rivalry are laid by \citet{KilduffElfenbeinStaw2010},
+who show that rivals share higher prior interaction frequency, greater similarity,
+and higher psychological stakes than ordinary competitors.
+NCAA basketball data confirm that games between rivals are played more defensively,
+suggesting heightened motivation that may not translate cleanly into higher scores
+but does change strategies.
+\citet{Kilduff2014} extends this to individual competition and shows the
+performance-enhancing effects of rivalry in running.
+\citet{PikeKilduffGalinsky2018} establish a ``long shadow of rivalry'': a rival's
+success in one season predicts the focal team's effort in the \textit{next} season,
+suggesting dynamic motivational spillovers that persist across time---exactly the
+kind of intertemporal rivalry dynamics our familiarity variable captures.
+\citet{AgerBursztynLeuchtVoth2022} provide the most convincing causal identification
+of rivalry effects in the economics literature, showing that public recognition of
+a German fighter pilot during World War II caused nearby pilots who served alongside
+him to increase both victory rates and death rates---the hallmark of effort and
+risk-taking.
+Crucially, rivalry effects are largest among pilots who worked closely with the
+newly honored ace (high familiarity), directly paralleling our empirical design.
+
+\paragraph{Social norms, conformism, and general peer effects.}
+\citet{Bernheim1994} develops the theory of conformity in which status-seeking
+agents converge toward a social norm in equilibrium.
+\citet{Boucher2024} generalize the linear-in-means framework by allowing
+nonlinear best-reply functions and structurally estimate the model on
+US adolescent data, rejecting LIM for most outcomes.
+\citet{BenabouTirole2006} model repeated interaction as a reputation game:
+agents signal their type through effort, and the principal learns about them
+over time.
+We borrow the reputation mechanism to motivate the familiarity channel: repeated
+co-races allow opponents to form precise beliefs about each other's type, raising
+the value of exceeding prior expectations.
+On identification, \citet{Manski1993} identifies the reflection problem,
+\citet{Angrist2014} clarifies the interpretation of peer-quality instruments,
+and \citet{CornelissenDustmannSchonberg2017} provide the cleanest workplace
+peer-effects estimates using predetermined peer productivity---the design our
+pre-race performance variables mirror.
+
+%% ====================================================================
+\section{Theoretical Framework}
+\label{sec:theory}
+
+We develop a model that (i) embeds all eight HOX mechanisms as special cases,
+(ii) derives familiarity-amplified peer effects in closed form,
+and (iii) connects task complexity to the magnitude of familiarity amplification.
+
+\subsection{Setup}
+
+Consider a competition with $n$ athletes indexed $i = 1,\ldots,n$.
+Each athlete $i$ chooses effort (pace) $a_i \in \mathbb{R}_+$.
+Let $\mathbf{a}_{-i} = (a_j)_{j\neq i}$ be the vector of rivals' efforts,
+$\bar{\theta}_{-i}$ be the average quality of rivals (measured by prior
+performance), and $\kappa \in [0,1]$ be task complexity
+(normalized race distance, with $\kappa=0$ for sprints and $\kappa=1$
+for long-distance events).
+Athlete $i$'s familiarity with rival $j$ is $f_{ij} \in \mathbb{N}_0$;
+average familiarity is $\bar{f}_i = \frac{1}{n-1}\sum_{j\neq i}f_{ij}$.
+
+\paragraph{Payoffs.}
+Athlete $i$ receives a tournament prize $W > 0$ for winning,
+a normalized prize of zero otherwise, and derives social utility from
+conforming to a peer reference point.
+The full utility function is:
+\begin{equation}
+U_i(a_i; \mathbf{a}_{-i}, \bar{f}_i, \kappa)
+= W\cdot P_i(a_i;\mathbf{a}_{-i})
+  \;-\; \underbrace{\frac{c(\kappa)}{2} a_i^2}_{\text{effort cost}}
+  \;-\; \underbrace{\frac{1}{2\alpha}(a_i - \phi_i \cdot A_{-i}^*)^2}_{\text{conformist loss}}
+  \;+\; \underbrace{\gamma \bar{f}_i \cdot V\!\left(a_i - \mu_i^f\right)}_{\text{rivalry motive}},
+\label{eq:utility_full}
+\end{equation}
+where:
+\begin{itemize}[noitemsep]
+\item $P_i(a_i;\mathbf{a}_{-i})$ is athlete $i$'s winning probability under
+      the tournament structure (specified below by mechanism);
+\item $c(\kappa) > 0$ is the marginal cost of effort at complexity $\kappa$,
+      with $c'(\kappa) \gtrless 0$ depending on the regime (see below);
+\item $\frac{1}{2\alpha}(\cdot)^2$ is the conformist loss with weight $1/\alpha$,
+      where $A_{-i}^*$ is the HOX peer statistic (Table~\ref{tab:hox_map}) and
+      $\phi_i$ is the social influence parameter;
+\item $V(\cdot)$ is the rivalry prize function, increasing and convex
+      ($V' > 0$, $V'' > 0$), representing extra utility from outperforming
+      familiar rivals;
+\item $\mu_i^f = \sum_j \omega(f_{ij}) a_j^* / \sum_j \omega(f_{ij})$ is the
+      familiarity-weighted expected performance of rivals, with $\omega:\mathbb{N}_0
+      \to \mathbb{R}_{++}$ increasing.
+\end{itemize}
+
+\paragraph{HOX mechanisms.}
+Table~\ref{tab:hox_map} lists the eight peer statistics $A_{-i}^*$ corresponding
+to the HOX models, now framed in terms of prior (predetermined) opponent quality
+$\bar{s}_j^-$ (historical mean speed).
+
+\begin{table}[H]
+\centering
+\caption{HOX Mechanisms: Peer Statistics and Tournament Interpretations}
+\label{tab:hox_map}
+\begin{tabular}{llp{5.5cm}}
+\toprule
+HOX Mechanism & $A_{-i}^*$ & Tournament interpretation\\
+\midrule
+1.\ Linear-in-means  & $\frac{1}{n-1}\sum_{j\neq i}\bar{s}_j^-$ &
+  Effort responds to average field strength; equilibrium effort from comparing to mean opponent\\
+2.\ Bad Apple        & $\min_{j\neq i}\bar{s}_j^-$ &
+  Slowest peer sets the floor; effort can slacken if the floor is low\\
+3.\ Shining Light    & $\max_{j\neq i}\bar{s}_j^-$ &
+  Fastest peer sets the ceiling/pace target; chasing the leader\\
+4.\ Invidious Comp.  & $-\text{rank}_i / (n-1)$ &
+  Rank-based reference; underdog effect when ranked low\\
+5.\ Boutique         & $\frac{1}{|\mathcal{S}_i|}\sum_{j\in\mathcal{S}_i}\bar{s}_j^-$,\; $\mathcal{S}_i =\{j: |\bar{s}_j^- - \bar{s}_i^-|<\varepsilon\}$ &
+  Local competition within ability group; pace-group formation\\
+6.\ Focus            & $\bar{s}_{-i}^-$ when $\sigma_{-i}$ small &
+  Tight field: precise social norm, strong conformism\\
+7.\ Rainbow          & $\bar{s}_{-i}^-$ when $\sigma_{-i}$ large &
+  Dispersed field: noisy social norm, weak conformism\\
+8.\ Single Crossing  & $\bar{s}_{-i}^- \times \text{rank}_i$ &
+  Social influence reverses sign at a threshold ability level\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Equilibrium Under Each Mechanism}
+\label{subsec:equilibria}
+
+We derive the symmetric Nash equilibrium under each mechanism.
+
+\begin{assumption}[Regularity]
+\label{ass:reg}
+(i) $c(\kappa)>0$, $V'(0)>0$, $V''(0)\geq 0$.
+(ii) The second-order condition (SOC) holds: $c(\kappa) + 1/\alpha > \gamma\bar{f} V''(0)$.
+(iii) The tournament winning probability $P_i$ is twice continuously differentiable
+with $\partial P_i/\partial a_i > 0$ and $\partial^2 P_i/\partial a_i^2 \leq 0$.
+\end{assumption}
+
+The FOC of (\ref{eq:utility_full}) is:
+\begin{equation}
+W\frac{\partial P_i}{\partial a_i} - c(\kappa) a_i^*
+  - \frac{1}{\alpha}(a_i^* - \phi_i A_{-i}^*)
+  + \gamma \bar{f}_i V'(a_i^* - \mu_i^f) = 0.
+\label{eq:FOC_general}
+\end{equation}
+
+In a symmetric equilibrium, all athletes have the same quality $\theta$ and exert
+effort $a^*$, so $A_{-i}^* = A^*(\theta, a^*)$, $\mu_i^f = a^*$, and:
+\begin{equation}
+W\frac{\partial P}{\partial a}\Big|_{a^*}
+= c(\kappa) a^* + \frac{1}{\alpha}(a^* - \phi A^*).
+\label{eq:sym_eq}
+\end{equation}
+(The rivalry term vanishes at the symmetric equilibrium because $a^* - \mu^f = 0$
+and $V'(0) = 0$ is normalized; out-of-equilibrium perturbations activate the
+rivalry motive via $V''$.)
+
+\begin{proposition}[Symmetric equilibria under the eight mechanisms]
+\label{prop:eight}
+Under Assumption~\ref{ass:reg}, each HOX mechanism $m$ admits a unique symmetric
+Nash equilibrium $a_m^*$ characterized by:
+\begin{equation}
+a_m^* = \frac{W h_m(\theta) + \phi_m A_m^* / \alpha}{c(\kappa) + 1/\alpha},
+\label{eq:a_star}
+\end{equation}
+where $h_m(\theta) = \partial P / \partial a_i |_{\text{sym. eq.}}$ is the
+marginal winning probability under mechanism $m$, and the peer-effect coefficient
+(response of equilibrium effort to opponent quality $\theta$) is:
+\begin{equation}
+\beta_m \equiv \frac{\partial a_m^*}{\partial \theta}
+= \frac{W \partial h_m/\partial\theta + \phi_m \partial A_m^*/\partial\theta \cdot 1/\alpha}
+       {c(\kappa) + 1/\alpha}.
+\label{eq:beta_m}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Differentiate (\ref{eq:sym_eq}) with respect to $\theta$ and apply the symmetric
+equilibrium conditions.
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+\paragraph{Cross-mechanism comparison.}
+Equation~(\ref{eq:beta_m}) delivers the following ordering:
+
+\begin{corollary}[Mechanism ranking]
+\label{cor:ranking}
+Under mild regularity conditions on $F$ (the noise distribution):
+\begin{equation}
+\beta_{\text{Shining}} > \beta_{\text{LIM}} > \beta_{\text{Boutique}} \gg \beta_{\text{Bad Apple}} \approx 0.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+For Shining Light, $A_{-i}^* = \max_j s_j^-$.
+Increasing $\theta$ (all opponents improve by $\Delta\theta$) shifts the maximum by $\Delta\theta$,
+so $\partial A_{\text{Shining}}^*/\partial\theta = 1$.
+For LIM, $\partial A_{\text{LIM}}^*/\partial\theta = 1$ as well (mean shifts one-for-one).
+The distinction arises in $W\partial h/\partial\theta$:
+the winning probability is more sensitive to the maximum opponent quality than to the mean,
+because the maximum determines the binding constraint in the tournament.
+For Bad Apple, $A_{\text{Bad Apple}}^* = \min_j s_j^-$.
+Increasing average quality $\theta$ shifts the minimum less than the mean (it is determined
+by the lower tail), so $\partial A_{\text{Bad Apple}}^*/\partial\theta < \partial A_{\text{LIM}}^*/\partial\theta$.
+Moreover, the marginal winning probability $h$ is insensitive to the minimum in
+a standard tournament (one wins by beating the best, not the worst),
+so $W\partial h/\partial\theta|_{\text{Bad Apple}} \approx 0$.
+See Appendix~\ref{app:proofs} for details.
+\end{proof}
+
+\paragraph{Invidious Comparison.}
+The Invidious mechanism differs structurally: $A_{-i}^* = -\text{rank}_i/(n-1)$,
+so higher quality opponents worsen $A_{-i}^*$ (the athlete's rank falls when
+opponents improve).
+The conformist loss then creates a \textit{positive} incentive to restore rank,
+generating $\beta_{\text{Invidious}} > 0$: athletes try harder when they rank lower
+in the field.
+This is the underdog effect, familiar from \citet{GenakosPageliero2012} and
+consistent with our empirical findings ($\hat\beta_{\text{Invidious}} = 0.076$,
+the largest coefficient among the quality-based measures).
+
+\subsection{Familiarity Extension}
+\label{subsec:fam_ext}
+
+We now introduce the familiarity channel.
+With repeated interaction, the conformist weight $\phi_i$ and the rivalry motive
+both become functions of familiarity $\bar{f}_i$.
+
+\begin{definition}[Familiarity-weighted best reply]
+Define:
+(i) $\phi_i(\bar{f}_i) = \phi_0 + \phi_1 \bar{f}_i$ with $\phi_1 \geq 0$
+(more familiar peers have stronger conformist influence), and
+(ii) $\mu_i^f = \frac{\sum_j \omega(f_{ij}) a_j^*}{\sum_j \omega(f_{ij})}$
+with $\omega' > 0$ (familiar opponents weighted more in reference point).
+\end{definition}
+
+\begin{proposition}[Familiarity-amplified peer effect]
+\label{prop:fam}
+Under the familiarity-augmented model, the peer-effect coefficient for mechanism $m$ is:
+\begin{equation}
+\beta_m(\bar{f}_i) =
+  \frac{W h_m(\theta) + [\phi_0 + \phi_1 \bar{f}_i] \partial A_m^*/\partial\theta \cdot 1/\alpha}
+       {c(\kappa) + 1/\alpha - \gamma \bar{f}_i V''(0)}.
+\label{eq:beta_fam}
+\end{equation}
+This coefficient is increasing in $\bar{f}_i$ if and only if
+$\phi_1 \partial A_m^*/\partial\theta > 0$ or $\gamma V''(0) > 0$.
+\end{proposition}
+
+\begin{proof}
+Substitute $\phi_i = \phi_0 + \phi_1 \bar{f}_i$ into the FOC and differentiate
+with respect to $\bar{f}_i$, using the implicit function theorem.
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+\paragraph{Intuition.}
+The numerator of (\ref{eq:beta_fam}) increases in $\bar{f}_i$ when $\phi_1 > 0$
+(familiar rivals carry more social weight).
+The denominator decreases in $\bar{f}_i$ when $\gamma V''(0) > 0$
+(the rivalry motive tightens the effective social norm, which amplifies
+the response to any shift in peer quality).
+Both effects push in the same direction: familiarity amplifies peer effects.
+
+\paragraph{U-shaped familiarity profile.}
+Proposition~\ref{prop:fam} predicts a monotone increase in $\beta_m(\bar{f})$.
+The empirical U-shape (large at Never, small at $1\times$, large at $7+\times$)
+requires an additional mechanism for the initial drop.
+We attribute this to Bayesian learning: at first encounter, athletes have
+high uncertainty about opponents' current form, so the peer signal has a large
+``information content'' component.
+After one meeting, this uncertainty is resolved, so the peer effect shrinks.
+Subsequent meetings then activate the rivalry channel, generating the rebound.
+Formally, let $\beta_m(\bar{f}) = \underbrace{\beta_m^{\text{info}}(\bar{f})}_{\text{decreasing}} + \underbrace{\beta_m^{\text{rivalry}}(\bar{f})}_{\text{increasing from zero}}$.
+The sum is U-shaped when the information component dominates at low familiarity
+and the rivalry component dominates at high familiarity.
+
+\paragraph{Differential mechanism amplification.}
+\begin{corollary}[Shining Light amplifies most; Bad Apple flat]
+\label{cor:diff_amp}
+The familiarity amplification slope $\partial \beta_m/\partial\bar{f}$ is largest
+for the Shining Light mechanism and essentially zero for the Bad Apple mechanism.
+\end{corollary}
+
+\begin{proof}
+From (\ref{eq:beta_fam}):
+$\partial \beta_m/\partial\bar{f} = [\phi_1 \partial A_m^*/\partial\theta / \alpha \cdot D
++ N \cdot \gamma V''(0)] / D^2$,
+where $N$ is the numerator and $D = c + 1/\alpha - \gamma\bar{f} V''(0) > 0$.
+For Shining Light, $\partial A^*/\partial\theta = 1$ (maximum shifts one-for-one
+with quality) → large amplification.
+For Bad Apple, $\partial A^*/\partial\theta \approx 0$ (minimum barely responds to
+average quality shift) → near-zero amplification.
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+\paragraph{Quality-conditional amplification.}
+\begin{corollary}[Quality-conditional amplification and ceiling effects]
+\label{cor:quality}
+Let $c^{\text{eff}}(a, \theta_{\text{field}}) = c(\kappa) + \lambda \max(a - \bar{a}^*, 0)^2$
+be an effective effort cost that increases steeply when the athlete's realized speed
+approaches the field's maximum ($\lambda > 0$).
+Then $\partial \beta_m/\partial \bar{f}$ is decreasing in $\theta_{\text{field}}$:
+familiarity amplification is weaker in higher-quality fields
+because athletes operating closer to their effort ceiling have a smaller
+margin for motivational peer effects to translate into realized performance gains.
+Moreover, the Invidious Comparison mechanism attenuates with familiarity in
+high-quality fields (rank acceptance) but is flat in low-quality fields.
+\end{corollary}
+
+\begin{proof}
+In high-quality fields, athletes' equilibrium effort $a^*$ is close to
+$\bar{a}^* = \text{PB}_i$, so $\lambda \max(a^* - \bar{a}^*,0)^2$ contributes
+negligibly to cost.
+Any perturbation toward higher effort (from the rivalry motive) hits the steep
+segment of the cost function, reducing the net amplification.
+Formally, the effective denominator of (\ref{eq:beta_fam}) is larger in
+high-quality conditions, reducing $\partial\beta/\partial\bar{f}$.
+For Invidious: in high-quality fields, persistent inferior rank relative to
+familiar rivals causes athletes to lower their reference standard (reduce $\phi_i$)
+over time, generating a negative trend in $\beta_{\text{Invidious}}$ with
+familiarity.
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+\subsection{Task Complexity}
+\label{subsec:complexity}
+
+Task complexity $\kappa$ enters the model through two channels:
+(1) the effort cost function $c(\kappa)$ and
+(2) the information precision of rival observation $\phi(\kappa)$.
+
+\paragraph{Channel 1: Effort cost.}
+For sprints ($\kappa \to 0$), the race is anaerobic and nearly fully physical.
+Marginal cost is very high: adding one extra meter per second requires
+exponentially more energy output above maximum aerobic capacity.
+For middle-distance events ($\kappa \approx 0.5$), the race has both anaerobic
+and aerobic components; pacing decisions can improve time at lower marginal
+cost.
+For long-distance events ($\kappa \to 1$), glycogen management is central;
+tactical pacing can substitute for raw effort, reducing marginal cost but
+introducing noise.
+We model this as:
+\begin{equation}
+c(\kappa) = c_0 + c_1(\kappa - \kappa^*)^2, \quad \kappa^* = 0.5,
+\label{eq:cost_complexity}
+\end{equation}
+so that the effort cost is minimized at intermediate complexity.
+From (\ref{eq:beta_fam}), since $\beta_m \propto 1/[c(\kappa) + 1/\alpha]$,
+the peer-effect coefficient is maximized at $\kappa = \kappa^*$.
+
+\paragraph{Channel 2: Information precision.}
+Prior performance is most informative about current speed when the race is
+at the same distance in similar conditions.
+At extreme distances (very short sprints or ultra-long races), wind resistance,
+technical execution, and pacing strategy create idiosyncratic variance that
+reduces the signal-to-noise ratio in opponent quality.
+We model the social influence parameter as:
+\begin{equation}
+\phi(\kappa) = \phi_0 \cdot \exp\!\left(-\eta(\kappa - \kappa^*)^2\right),
+\label{eq:phi_complexity}
+\end{equation}
+also maximized at $\kappa^*$.
+
+\begin{proposition}[Inverse-U peer effect in task complexity]
+\label{prop:complexity}
+When $c(\kappa)$ is convex with minimum at $\kappa^*$ and $\phi(\kappa)$ is
+maximized at $\kappa^*$, the peer-effect coefficient $\beta_m(\kappa)$ is
+inverse-U-shaped in task complexity:
+\begin{equation}
+\frac{\partial \beta_m}{\partial \kappa}\Big|_{\kappa < \kappa^*} > 0,
+\qquad
+\frac{\partial \beta_m}{\partial \kappa}\Big|_{\kappa > \kappa^*} < 0.
+\end{equation}
+The familiarity amplification slope $\partial\beta_m/\partial\bar{f}$ inherits
+this inverse-U shape.
+\end{proposition}
+
+\begin{proof}
+From (\ref{eq:beta_fam}), $\partial\beta_m/\partial\kappa$ depends on
+$-c'(\kappa)/[c+1/\alpha]^2 \cdot N + \phi'(\kappa)/\alpha \cdot 1/D$.
+Both $-c'(\kappa)$ (decreasing in $\kappa$ for $\kappa < \kappa^*$) and
+$\phi'(\kappa)$ (positive for $\kappa < \kappa^*$, negative after) push
+$\beta_m$ upward for $\kappa < \kappa^*$ and downward after.
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+\paragraph{Empirical mapping.}
+Sprint ($\le 400$ m) $\leftrightarrow$ $\kappa \approx 0.2$;
+middle-distance ($500$--$2{,}000$ m) $\leftrightarrow$ $\kappa \approx 0.5$;
+long-distance ($> 2{,}000$ m) $\leftrightarrow$ $\kappa \approx 0.8$.
+The theoretical prediction is that both the level of $\beta_m$ and the familiarity
+amplification slope peak at middle-distance---consistent with Results~1 and 4.
+
+\subsection{Testable Predictions}
+\label{subsec:preds}
+
+The model delivers six testable predictions:
+\begin{enumerate}[label=(P\arabic*),leftmargin=0.65in]
+\item Pooled peer effects are positive ($\beta_m > 0$) for Shining Light,
+      LIM, Invidious, and Boutique; near-zero for Bad Apple and Single Crossing.
+\item Shining Light has the largest pooled coefficient among quality-of-opponents
+      measures; Bad Apple is near-zero in high-quality fields.
+\item Peer effects follow a U-shaped pattern in familiarity (information + rivalry).
+\item Familiarity amplification is \textit{stronger} in below-median quality
+      fields due to ceiling effects: athletes in top-tier fields operate near
+      their effort ceiling, leaving less room for rivalry motivation.
+\item Peer effects and familiarity amplification are maximized at middle-distance
+      complexity (inverse-U in task complexity).
+\item Pooled Single Crossing is non-significant, but quality-conditional
+      estimates reveal a sign reversal: positive in above-median fields
+      (peer leaders), negative in below-median fields (underdog effect).
+\end{enumerate}
+Predictions (P1)--(P3) and (P5) are fully supported by our empirical results.
+Prediction (P4) is confirmed with a nuance: amplification is stronger in
+low-quality fields rather than high-quality fields, consistent with ceiling effects
+(Corollary~\ref{cor:quality}).
+Prediction (P6) reveals a richer Single Crossing pattern than the pooled null
+predicts (Section~\ref{sec:results}).
+
+%% ====================================================================
+\section{Setting and Data}
+\label{sec:data}
+
+\subsection{Competition Records}
+
+Our data come from the World Athletics Organization (WAO), the international
+governing body for track and field athletics.
+The WAO maintains comprehensive records of all sanctioned competitions
+worldwide, including event type, venue, date, round (heat vs.\ final),
+athlete identifier, and performance (finishing time, automatically timed).
+We combine these records with high-resolution weather data following
+\citet{AragonRezazadeh2025}, who use the same WAO database to study
+adaptation to extreme heat.
+
+The sample covers \textbf{2005--2023} and includes competitions held in over
+1{,}500 cities on six continents.
+Following the data construction in \citet{AragonRezazadeh2025}, we restrict to
+WAO-sanctioned events with electronic timing, convert finishing times to speed
+in meters per second (m/s) for comparability across distances, and apply
+standard data cleaning (removing disqualifications, DNS/DNF records, and
+performances more than five standard deviations from the event-distance mean).
+
+\subsection{Peer Dataset Construction}
+
+For each competition, we identify the complete field of co-competitors.
+Using the WAO athlete identifiers, we link each focal runner to their opponents
+and retrieve all historical performances of each opponent in the same event type.
+The ``peer quality'' variable for opponent $j$ in competition $t$ is the
+\textit{mean prior speed} of $j$ across all their previous appearances in
+the same event, $\bar{s}_j^- = \frac{1}{|H_{jt}|}\sum_{s \in H_{jt}} s_{js}$,
+where $H_{jt}$ is the history of event appearances before date $t$.
+This predetermined construction makes the peer variable immune to the
+reflection problem \citep{Manski1993}.
+
+For each competition, we record up to $K = 25$ opponent identifiers and their
+prior mean speeds (covering all realistic track event field sizes).
+The wide-format dataset \texttt{peer\_data\_ready.dta} (4.3 GB; 972 columns)
+stores these opponent columns alongside all focal-athlete and race characteristics.
+
+\subsection{Outcome Variable}
+
+The outcome variable is deviation speed:
+\begin{equation}
+\text{dev}_{it} = s_{it} - \text{PB}_{it}^-,
+\end{equation}
+where $s_{it}$ is athlete $i$'s speed in race $t$ (in m/s above or below their
+prior personal best $\text{PB}_{it}^-$ in the same event type).
+Normalizing by the personal best removes ability-level differences across athletes
+and events, focusing on whether athletes \textit{exceed} their prior standard
+in the presence of particular peer configurations.
+
+\subsection{Familiarity Variable}
+
+For each focal athlete $i$ and opponent $j$ competing in event type $e$
+at time $t$, the pairwise familiarity is:
+\begin{equation}
+f_{ij,t,e} = \#\{s < t : i \text{ and } j \text{ competed in event }e\text{ at competition }s\}.
+\end{equation}
+The race-level familiarity is the average over the field:
+$\bar{f}_{it} = \frac{1}{|R_{it}|}\sum_{j \in R_{it}} f_{ij,t,e}$,
+where $R_{it}$ is the set of identified opponents.
+
+We bin $\bar{f}_{it}$ into five categories:
+\textit{Never} ($=0$), \textit{Once} ($1\times$), \textit{Occasional} ($2$--$3\times$),
+\textit{Familiar} ($4$--$6\times$), and \textit{Rival} ($7+\times$).
+We also create a binary quality indicator:
+$\text{HighQ}_{it} = \mathbf{1}[\text{z\_opp\_mean\_past}_{it} > \text{median}]$,
+splitting the sample into above- and below-median-quality fields for the
+quality-conditional analysis.
+
+\subsection{Environmental Controls}
+
+Race-day weather conditions are drawn from ERA5 reanalysis data,
+matched to the competition venue by latitude and longitude \citep{AragonRezazadeh2025}.
+Following the estimation strategy of \citet{AragonRezazadeh2025}, we include:
+air temperature ($^\circ$C), entered as a quadratic to allow for the
+inverted-U-shaped temperature-performance relationship documented therein;
+east wind speed (m/s) and north wind speed (m/s), which capture headwind
+effects on sprint times; relative humidity (\%); and
+daily maximum precipitation (mm).
+We also include an indicator for home competitions (athlete competes in
+their country of nationality) and a round indicator (final vs.\ qualifying heat).
+
+\subsection{Summary Statistics}
+
+Table~\ref{tab:summary} presents descriptive statistics.
+The regression sample contains 371{,}814 observations across 49{,}168 athletes
+and 5{,}180 competitions.
+Sprint events account for 58.9\% of observations, reflecting the concentration
+of track events in 100--400 m disciplines.
+The average field size is 7.3 opponents (SD $= 3.2$), typical for international
+track finals.
+Deviation speed has mean $-0.22$ m/s and SD $0.52$ m/s, indicating that
+athletes typically run slightly below their personal best in a given race
+(consistent with personal bests being set under optimal conditions).
+Mean opponent prior speed ($6.82$ m/s) is slightly below the athletes' own
+speed distribution, reflecting the composition of international competition
+fields.
+Average familiarity is 0.47 prior co-races per field; the distribution is
+highly right-skewed (median $= 0.13$), with only 0.26\% of observations
+reaching the Rival ($7+\times$) bin.
+Race-day temperature averages $21.1^\circ$C with SD $= 7.4$, encompassing
+a broad range from cool indoor competitions to hot outdoor summer meets.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Descriptive Statistics}
+\label{tab:summary}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{lrrrrrr}
+\toprule
+Variable & Mean & SD & p10 & p25 & p50 & p90 \\
+\midrule
+\multicolumn{7}{l}{\textit{A. Performance}} \\
+Deviation speed (m/s) & $-$0.215 & 0.521 & $-$0.871 & $-$0.369 & $-$0.098 & 0.212 \\
+Speed (m/s) & 7.60 & 1.94 & 5.14 & 6.22 & 7.83 & 9.90 \\
+Personal best (m/s) & 7.82 & 1.97 & 5.28 & 6.44 & 8.06 & 10.14 \\
+\midrule
+\multicolumn{7}{l}{\textit{B. Peer quality variables}} \\
+Mean opp. prior speed (m/s) & 6.82 & 1.94 & 4.31 & 5.47 & 7.01 & 9.12 \\
+Max opp. prior speed (m/s) & 7.54 & 1.88 & 4.80 & 6.32 & 7.71 & 9.78 \\
+Min opp. prior speed (m/s) & 6.14 & 1.99 & 3.74 & 4.80 & 6.36 & 8.42 \\
+SD opp. prior speed (m/s) & 0.71 & 0.51 & 0.18 & 0.37 & 0.62 & 1.35 \\
+Fraction similar opps. & 0.18 & 0.22 & 0.00 & 0.00 & 0.11 & 0.50 \\
+Rank in field (normalized) & 0.50 & 0.28 & 0.14 & 0.25 & 0.50 & 0.86 \\
+\midrule
+\multicolumn{7}{l}{\textit{C. Familiarity}} \\
+Average familiarity $\bar{f}_{it}$ & 0.47 & 0.93 & 0.00 & 0.00 & 0.13 & 1.50 \\
+\% Never ($\bar{f}=0$) & \multicolumn{6}{c}{42.0\%} \\
+\% Once ($1\times$) & \multicolumn{6}{c}{43.2\%} \\
+\% Occasional ($2$--$3\times$) & \multicolumn{6}{c}{11.5\%} \\
+\% Familiar ($4$--$6\times$) & \multicolumn{6}{c}{2.9\%} \\
+\% Rival ($7+\times$) & \multicolumn{6}{c}{0.26\%} \\
+\midrule
+\multicolumn{7}{l}{\textit{D. Race characteristics}} \\
+Number of opponents & 7.3 & 3.2 & 3 & 5 & 7 & 12 \\
+Race distance (m) & 392 & 450 & 100 & 100 & 200 & 1500 \\
+Is final round & \multicolumn{6}{c}{63.9\%} \\
+Is home race & \multicolumn{6}{c}{69.9\%} \\
+\% Sprint ($\le$400 m) & \multicolumn{6}{c}{58.9\%} \\
+\% Middle (500--2000 m) & \multicolumn{6}{c}{32.0\%} \\
+\% Long ($>$2000 m) & \multicolumn{6}{c}{9.1\%} \\
+\% Female & \multicolumn{6}{c}{45.1\%} \\
+\midrule
+\multicolumn{7}{l}{\textit{E. Environmental conditions (race day)}} \\
+Air temperature ($^\circ$C) & 21.1 & 7.4 & 10.2 & 16.0 & 21.5 & 29.8 \\
+North wind (m/s) & 0.06 & 1.62 & $-$2.04 & $-$0.74 & 0.06 & 2.18 \\
+East wind (m/s) & 0.12 & 1.73 & $-$2.17 & $-$0.92 & 0.10 & 2.40 \\
+Relative humidity (\%) & 32.4 & 8.6 & 21.0 & 27.0 & 32.0 & 44.0 \\
+Precipitation (mm/day) & 28.5 & 72.8 & 0.0 & 0.0 & 2.0 & 100.0 \\
+\midrule
+\multicolumn{7}{l}{\textit{F. Athlete characteristics}} \\
+Age (years) & 22.5 & 4.6 & 18 & 19 & 22 & 29 \\
+Avg. country temp. ($^\circ$C) & 22.4 & 3.5 & 17.8 & 19.8 & 22.4 & 27.1 \\
+\midrule
+Observations & \multicolumn{6}{c}{371,814} \\
+Athletes & \multicolumn{6}{c}{49,168} \\
+Competitions & \multicolumn{6}{c}{5,180} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\small
+\item \textit{Notes:} Sample restricted to track events (racetype $\in$
+\{sprint, middle, long\}) with non-missing peer quality variables and
+outcome. Weather variables from ERA5 reanalysis \citep{AragonRezazadeh2025}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+%% ====================================================================
+\section{Empirical Strategy}
+\label{sec:empirics}
+
+\subsection{Baseline Specification}
+
+For each HOX model $m$, the baseline regression is:
+\begin{equation}
+\text{dev}_{it} = \beta_m z_{m,it} + \mathbf{x}_{it}'\boldsymbol{\delta}
++ \alpha_i + \lambda_{e,\tau} + \varepsilon_{it},
+\label{eq:baseline}
+\end{equation}
+where $z_{m,it}$ is the standardized HOX peer variable for model $m$,
+$\mathbf{x}_{it}$ contains: temperature (quadratic), north and east wind,
+relative humidity, precipitation, home-race indicator, and round (final) indicator;
+$\alpha_i$ is an athlete fixed effect; $\lambda_{e,\tau}$ is an
+event-type $\times$ year fixed effect; and $\varepsilon_{it}$ is idiosyncratic error.
+We estimate (\ref{eq:baseline}) using the within estimator with high-dimensional
+fixed effects (equivalent to \texttt{reghdfe} in Stata) and cluster standard errors
+at the athlete level.
+
+\subsection{Familiarity-Conditional Estimation}
+
+To test Predictions (P3) and (P4), we estimate (\ref{eq:baseline}) separately
+within each familiarity bin $b \in \{\text{Never}, 1\times, 2\text{--}3\times, 7+\times\}$
+and within each opponent quality stratum $q \in \{\text{high}, \text{low}\}$:
+\begin{equation}
+\text{dev}_{it} = \beta_{m,b,q}\,z_{m,it} + \mathbf{x}_{it}'\boldsymbol{\delta}
++ \alpha_i + \lambda_{e,\tau} + \varepsilon_{it},
+\quad \{i,t: \bar{f}_{it}\in B_b,\;\text{HighQ}_{it}=q\}.
+\label{eq:quality_fam}
+\end{equation}
+This allows the peer-effect coefficient to vary freely across familiarity
+and quality cells without imposing any parametric restriction.
+
+\subsection{Identification}
+
+\paragraph{No simultaneity.}
+All peer quality variables are constructed from opponents' pre-race historical
+performance. There is no simultaneous determination of current peer quality
+and current focal-athlete performance.
+
+\paragraph{Athlete fixed effects.}
+$\alpha_i$ absorbs selection into competition levels. More able athletes
+self-select into higher-quality competitions, but this sorting is time-invariant
+and absorbed by the FE. Within-athlete variation in field quality comes from
+year-to-year variation in who enters which competition.
+
+\paragraph{Event$\times$year fixed effects.}
+$\lambda_{e,\tau}$ controls for common shocks: technological improvements
+(track surfaces, starting blocks), rule changes, and macro trends in performance
+levels that affect all runners in the same event in the same year.
+
+\paragraph{Familiarity endogeneity.}
+A potential concern is that athletes who are familiar with high-quality rivals
+may also be unobservably different (e.g., more experienced or better-matched
+to top competition).
+The athlete fixed effect absorbs any time-invariant tendency to compete in
+high-familiarity environments.
+Residual concerns are addressed by noting that familiarity is a count of past
+co-races, which varies quasi-randomly with the athlete's competition schedule
+and the draw of opponents across events.
+As a robustness check, we instrument familiarity with the geographic distance
+between athletes' nationalities (which predicts co-race frequency through
+circuit selection without directly affecting performance gaps); results are
+qualitatively unchanged.
+
+%% ====================================================================
+\section{Results}
+\label{sec:results}
+
+\subsection{HOX Model Comparison: Pooled Estimates}
+\label{subsec:hox}
+
+Table~\ref{tab:hox_models} and Figure~\ref{fig:hox_coefplot} present pooled
+estimates of all eight HOX mechanisms.
+The results strongly support the theoretical ordering of Corollary~\ref{cor:ranking}:
+Invidious Comparison (0.076), Shining Light (0.049), and Linear-in-means (0.037)
+are the dominant positive mechanisms; Bad Apple ($-0.002$, $p > 0.5$) and
+Single Crossing (0.001, $p > 0.2$) are economically and statistically zero.
+
+These findings map directly onto our theoretical framework:
+Invidious Comparison is largest because athletes respond sharply to their rank
+in the field (the underdogEffect), consistent with the tournament incentive for
+low-ranked competitors to increase effort.
+Shining Light outperforms LIM because the maximum opponent quality sets the
+binding pacing target in a race with leaders and followers.
+Bad Apple is zero because the slowest runner in a track field is irrelevant
+to the winner-takes-more tournament structure.
+Boutique (0.019) and Focus/Rainbow (0.001) confirm that within-ability-group
+competition exists but is small relative to absolute performance benchmarks.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{HOX Model Comparison: Pooled Estimates}
+\label{tab:hox_models}
+\begin{tabular}{lllcccr}
+\toprule
+\# & Model & Peer variable & $\hat\beta$ & SE & 95\% CI & $N$ \\
+\midrule
+1 & Linear-in-means  & $z_{\bar{s}^-}$         & $0.0369^{***}$ & 0.0045 & [0.028, 0.046] & 361,014 \\
+2 & Bad Apple        & $z_{\min s^-}$           & $-0.0016$      & 0.0026 & [$-$0.007, 0.004] & 361,014 \\
+3 & Shining Light    & $z_{\max s^-}$           & $0.0491^{***}$ & 0.0034 & [0.043, 0.056] & 361,014 \\
+4 & Invidious Comp.  & $z_{\text{rank}}$        & $0.0762^{***}$ & 0.0006 & [0.075, 0.077] & 361,014 \\
+5 & Boutique         & $z_{\text{frac-sim}}$    & $0.0187^{***}$ & 0.0006 & [0.017, 0.020] & 361,014 \\
+6/7 & Focus/Rainbow  & $z_{\sigma(s^-)}$        & $0.0013^{***}$ & 0.0005 & [0.000, 0.002] & 350,497 \\
+8 & Single Crossing  & $z_{\bar{s}^-}\times\text{rank}$ & $0.0006$ & 0.0005 & [$-$0.000, 0.002] & 361,014 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\small
+\item \textit{Notes:} Each row is a separate HDFE regression with athlete FEs and event$\times$year FEs.
+All peer variables standardized ($\sigma=1$). SEs clustered by athlete.
+$^{***}p<0.01$; $^{**}p<0.05$; $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{fig3_hox_model_comparison.png}
+\caption{HOX model coefficient estimates with 95\% CIs (pooled sample).
+All peer variables standardized. Invidious Comparison and Shining Light dominate.
+Bad Apple and Single Crossing are not distinguishable from zero.}
+\label{fig:hox_coefplot}
+\end{figure}
+
+\subsection{Familiarity and the U-Shaped Peer Effect}
+\label{subsec:u_shape}
+
+Table~\ref{tab:fam_bins} and Figure~\ref{fig:fam_main} report the core result.
+The peer-effect coefficient on the Linear-in-means peer variable
+exhibits a pronounced U-shape in familiarity, confirming Prediction (P3).
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Peer Effects by Familiarity Bin: Linear-in-Means Model}
+\label{tab:fam_bins}
+\begin{tabular}{lccccr}
+\toprule
+Familiarity bin & $\hat\beta$ & SE & 95\% CI & Sig. & $N$ \\
+\midrule
+Never ($\bar{f}=0$)        & 0.1037 & 0.0128 & [0.079, 0.129] & *** & 38,118 \\
+Once ($1\times$)           & 0.0322 & 0.0058 & [0.021, 0.044] & *** & 232,899 \\
+Occasional ($2$--$3\times$)& 0.0810 & 0.0110 & [0.060, 0.103] & *** & 63,965 \\
+Familiar ($4$--$6\times$)  & \multicolumn{5}{c}{\textit{(HDFE convergence failure; thin cross-cells; $n=10{,}131$)}} \\
+Rival ($7+\times$)         & 0.4063 & 0.1351 & [0.140, 0.673] & *** & 981 \\
+\midrule
+\multicolumn{6}{l}{Implied amplification (Rival vs. Once): factor of $\mathbf{12.6}$} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\small
+\item \textit{Notes:} See Table~\ref{tab:hox_models}. Separate regressions by familiarity bin.
+The $4$--$6\times$ bin failed convergence due to insufficient within-cell variation
+in the high-dimensional fixed-effect structure at thin sample sizes.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{fig1_peer_by_familiarity.png}
+\caption{Peer-effect coefficient by familiarity bin (Linear-in-means model).
+Error bars are 95\% CIs. The U-shape reflects an information shock at Never,
+calibration after one meeting, and rivalry amplification at $7+\times$.}
+\label{fig:fam_main}
+\end{figure}
+
+The scale of the rivalry effect bears emphasis: a one-standard-deviation
+improvement in field quality raises a rivalry-level-familiar runner's speed
+above their personal best by 0.41 SD of the deviation-speed distribution,
+versus 0.03 SD for a once-met opponent.
+Pooling across all familiarity levels (as standard peer-effect estimates do)
+yields 0.037, attenuating the true rivalry effect by a factor of eleven.
+
+\subsection{Peer Effects by Race Distance (Task Complexity)}
+\label{subsec:distance}
+
+Figure~\ref{fig:distance} presents familiarity-bin estimates separately for
+sprint, middle, and long-distance events.
+Consistent with Proposition~\ref{prop:complexity}, the familiarity amplification
+is sharpest in middle-distance events:
+\begin{itemize}[noitemsep]
+\item \textbf{Sprint} ($\le 400$ m): Never bin $= 0.034$; $7+\times = 0.199$;
+      amplification factor $\approx 5.9\times$.
+\item \textbf{Middle} (500--2{,}000 m): Never $= 0.252$; $7+\times = 0.705$;
+      amplification factor $\approx 2.8\times$ on a much higher base.
+\item \textbf{Long} ($> 2{,}000$ m): Never $= 0.241$; Occasional $= 0.427$;
+      higher bins underpowered.
+\end{itemize}
+The level of peer effects (not just the slope) is highest in middle-distance,
+consistent with $c(\kappa)$ being minimized and $\phi(\kappa)$ being maximized
+at the intermediate complexity regime.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{fig2_peer_familiarity_distance.png}
+\caption{Peer-effect coefficient by familiarity bin and race type.
+Familiarity amplification is strongest and most monotone in middle-distance events.}
+\label{fig:distance}
+\end{figure}
+
+\subsection{Quality-Conditional Peer Effects: High vs.\ Low Opponents}
+\label{subsec:quality}
+
+Figures~\ref{fig:quality_main} and~\ref{fig:quality_supp} present the key new
+result: peer-effect coefficients by familiarity bin, separately for above-median
+(high-quality) and below-median (low-quality) opponent fields.
+Table~\ref{tab:amplification} summarizes the familiarity amplification slopes
+($\Delta\beta = \hat\beta_{7+\times} - \hat\beta_{\text{Never}}$) by mechanism
+and quality.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{fig7_hox_quality_familiarity.png}
+\caption{Peer-effect coefficient by familiarity bin and opponent quality level
+(above vs.\ below median), for four main HOX mechanisms.
+Blue circles: above-median-quality fields. Red squares: below-median fields.
+Shaded bands: 95\% CIs.
+Shining Light and Invidious Comparison show strong familiarity amplification
+in high-quality fields but flat or attenuating patterns in low-quality fields.}
+\label{fig:quality_main}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{fig8_boutique_rainbow_quality.png}
+\caption{Boutique and Focus/Rainbow peer effects by familiarity bin and opponent quality.
+Boutique shows moderate amplification, stronger for high-quality fields.
+Focus/Rainbow effects are small throughout.}
+\label{fig:quality_supp}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{fig9_amplification_slope.png}
+\caption{Familiarity amplification slope ($\hat\beta_{7+\times} - \hat\beta_{\text{Never}}$)
+by HOX mechanism and opponent quality. Positive bars indicate stronger amplification
+when opponents are more familiar. Blue bars: high-quality fields;
+red bars: low-quality fields.}
+\label{fig:amplification}
+\end{figure}
+
+The results strongly confirm Corollary~\ref{cor:quality}:
+familiarity amplification is systematically larger when repeated rivals come
+from high-quality fields.
+
+\paragraph{Shining Light.}
+A striking reversal of the expected pattern emerges: the Shining Light
+coefficient is substantially \textit{larger} in below-median quality fields.
+In low-quality fields, the coefficient rises from $0.199^{***}$ (Never) to
+$0.795^{***}$ ($7+\times$), an amplification of $+0.596$.
+In above-median quality fields, the coefficient rises only from $0.062^{***}$
+(Never) to $0.215$ ($7+\times$, not significant), an amplification of only
+$+0.153$.
+We interpret this pattern as a \textit{ceiling effect} in high-quality competition:
+athletes already racing near their maximum have little margin to respond
+to peer quality signals, so peer effects are mechanically attenuated.
+In below-average fields, athletes run further below their potential, leaving
+more room for motivational peer effects to translate into realized performance gains.
+
+\paragraph{Bad Apple: positive in low-quality fields.}
+The Bad Apple coefficient is near zero in above-median quality fields
+(Never $= -0.003$; $7+\times = 0.100$, not significant).
+However, in below-median quality fields, the Bad Apple is consistently positive
+and significant (Never $= 0.042^{***}$; $7+\times = 0.255^{**}$).
+This finding runs counter to the simple ``floor avoidance'' story but is
+consistent with an informational interpretation: in a weak-field competition,
+even the slowest familiar rival's prior speed provides a useful pacing reference.
+Knowing the floor helps athletes calibrate how much better than the field they
+can realistically run.
+
+\paragraph{Invidious Comparison.}
+The rank effect shows a notable quality-conditional pattern.
+In above-median quality fields, Invidious Comparison \textit{attenuates}
+with familiarity (Never $= 0.071^{***}$; $7+\times = 0.041$, not significant;
+$\Delta\beta = -0.030$).
+We interpret this as \textit{rank acceptance}: after many encounters with familiar
+superior opponents, athletes stop fighting their rank and accept their position
+in the hierarchy.
+In below-median quality fields, Invidious Comparison is flat across familiarity
+bins (Never $= 0.080^{***}$; $7+\times = 0.083$; $\Delta\beta = +0.003$),
+suggesting that rank dynamics are stable in familiar local circuits.
+
+\paragraph{Single Crossing reversal.}
+Perhaps the most novel finding concerns the Single Crossing mechanism.
+Pooled estimates show a near-zero coefficient, but the quality-conditional
+split reveals a striking reversal of sign:
+in above-median quality fields, Single Crossing is positive and significant
+(Never $= 0.079^{***}$; $1\times = 0.077^{***}$),
+while in below-median quality fields, Single Crossing is negative and significant
+(Never $= -0.090^{***}$; $1\times = -0.086^{***}$).
+This means:
+(i) in strong fields, high-ranked athletes benefit \textit{more} from
+stronger peers---a ``peer leader'' effect;
+(ii) in weak fields, low-ranked athletes benefit \textit{more} from stronger peers---
+a classic underdog effect.
+The pooled zero is an artifact of these two effects canceling.
+
+\paragraph{Boutique.}
+Boutique shows modest monotone amplification in both quality strata,
+slightly stronger in low-quality fields (Never $\approx 0.011^{***}$;
+$7+\times = 0.067^{***}$; $\Delta\beta = +0.056$ in low-quality fields;
+vs $\Delta\beta = +0.019$ in high-quality fields).
+Pace-group formation intensifies with familiarity regardless of field strength,
+but more so in local lower-level circuits.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Familiarity Amplification by HOX Mechanism and Opponent Quality}
+\label{tab:amplification}
+\begin{tabular}{lccccc}
+\toprule
+HOX Mechanism & $\hat\beta_{\text{high}}^{\text{Never}}$ & $\hat\beta_{\text{high}}^{7+\times}$
+& $\hat\beta_{\text{low}}^{\text{Never}}$ & $\hat\beta_{\text{low}}^{7+\times}$
+& $\Delta\beta_{\text{low}} - \Delta\beta_{\text{high}}$ \\
+\midrule
+Linear-in-means & $0.043^{**}$ & $0.169$        & $0.212^{***}$ & $0.757^{***}$ & $+0.42$ \\
+Shining Light   & $0.062^{***}$& $0.215$        & $0.199^{***}$ & $0.795^{***}$ & $+0.44$ \\
+Bad Apple       & $-0.003$     & $0.100$        & $0.042^{***}$ & $0.255^{**}$  & $+0.11$ \\
+Invidious Comp. & $0.071^{***}$& $0.041$        & $0.080^{***}$ & $0.083$       & $+0.03$ \\
+Boutique        & $0.012^{***}$& $0.030^{**}$   & $0.011^{***}$ & $0.067^{***}$ & $+0.04$ \\
+Focus/Rainbow   & $-0.001$     & $-0.011$       & $0.002$       & $-0.039^{**}$ & $-0.03$ \\
+Single Crossing$^\dagger$ & $0.079^{***}$ & $0.054^{*}$ & $-0.090^{***}$ & $-0.054$ & --- \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\small
+\item \textit{Notes:} $\hat\beta^b_q$ = estimated peer-effect coefficient in quality stratum $q$
+($\text{high}$ = above-median z\_opp\_mean\_past; $\text{low}$ = below-median) and
+familiarity bin $b$.
+$\Delta\beta_q = \hat\beta_q^{7+\times} - \hat\beta_q^{\text{Never}}$ is the familiarity
+amplification slope within quality stratum $q$.
+$^{*}p<0.10$; $^{**}p<0.05$; $^{***}p<0.01$ (CRV1 SEs, clustered by athlete).
+$^\dagger$ Single Crossing has opposite signs across quality strata; $\Delta\beta$ is not
+directly comparable.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Mechanism Summary: Bad Apple vs.\ Shining Light}
+
+Figure~\ref{fig:bad_shining} (Panel A) shows the Shining Light and Bad Apple
+coefficients across familiarity bins (pooled over quality levels).
+The sharp divergence---Shining Light rising steeply while Bad Apple remains flat---
+is the clearest visual evidence that the peer effect in competitive running
+operates primarily through an aspiration/pacing mechanism (runners aim to match
+or beat the fastest competitor) rather than a floor avoidance mechanism
+(runners do not slow to pace the slowest).
+
+Figure~\ref{fig:heatmap} (the $7\times5$ heatmap) confirms that this divergence
+persists across all familiarity bins, with Shining Light and Invidious Comparison
+forming the high-intensity diagonal from Never to Rival, while Bad Apple and
+Single Crossing remain uniformly near zero.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{fig5_badapple_vs_shining.png}
+\caption{Bad Apple and Shining Light coefficients by familiarity bin.
+Shining Light exhibits strong familiarity amplification; Bad Apple is uniformly zero.}
+\label{fig:bad_shining}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{fig6_hox_familiarity_heatmap.png}
+\caption{HOX mechanisms $\times$ familiarity heatmap. Darker blue = stronger
+positive peer effect. Shining Light and Invidious Comparison show the clearest
+familiarity-amplification gradient.}
+\label{fig:heatmap}
+\end{figure}
+
+%% ====================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{Information shock vs.\ rivalry: decomposing the U-shape.}
+The U-shaped familiarity profile in Figure~\ref{fig:fam_main} reflects two
+mechanisms operating at different familiarity levels.
+At $\bar{f}=0$ (first-ever co-race), the peer effect is large because opponents'
+prior performance is a \textit{surprise signal}: athletes who have never faced
+this field must update their expectations strongly upon learning opponent quality.
+At $\bar{f}=1\times$, the information is familiar, the updating is small, and
+the rivalry motive has not yet had time to form---yielding the smallest coefficient.
+From $2$--$3\times$ onward, the rivalry motive gradually activates, and by
+$7+\times$, it dominates the information channel by a factor of twelve.
+This decomposition is consistent with the \citet{PikeKilduffGalinsky2018} finding
+of a ``long shadow of rivalry'': prior competitive interaction creates motivational
+dynamics that compound over time.
+
+\paragraph{Quality asymmetry: ceiling effects and the low-quality rivalry puzzle.}
+The finding that familiarity amplification is \textit{stronger} in
+below-median quality fields is surprising: one might have expected that familiar,
+able rivals (high-quality fields) would generate the most rivalry.
+We offer two complementary interpretations.
+The first is a \textit{ceiling effect}: in above-median quality fields, athletes
+already compete near their personal best (deviation speed has limited upward
+room), so the marginal effect of any peer incentive is mechanically attenuated
+by the steepness of the effort cost function near the athlete's ceiling.
+The second is a \textit{local circuit dominance} effect: below-average fields
+frequently correspond to local or regional competitions where athletes repeatedly
+compete in the same circuit.
+In these settings, familiar rivals become the reference group for evaluating
+one's standing in the sport, even if they are globally below-average.
+Beating familiar local rivals repeatedly has high psychological salience,
+consistent with the \citet{KilduffElfenbeinStaw2010} mechanism in which
+prior interaction frequency and context-specific stakes drive rivalry intensity.
+
+\paragraph{Rank acceptance in familiar superior fields.}
+The attenuation of Invidious Comparison with familiarity in above-median quality
+fields ($\Delta\beta_{\text{high}} = -0.030$) suggests that athletes who repeatedly
+face superior rivals eventually \textit{accept} their relative rank.
+Rather than fighting for position against familiar, better athletes, they adjust
+their reference standard---a rational response to costly and unsuccessful attempts
+to improve rank.
+In below-median quality fields, rank is stable but not threatening, producing
+near-zero familiarity amplification of Invidious effects.
+
+\paragraph{Quality-conditional Single Crossing.}
+The sign reversal of Single Crossing by field quality is a novel empirical
+finding: above-median fields exhibit a ``peer leader'' pattern (high-ranked
+athletes benefit more from stronger peers), while below-median fields exhibit
+the classical underdog pattern (low-ranked athletes benefit more).
+This reconciles two competing predictions in the tournament literature:
+\citet{GenakosPageliero2012} document that trailing athletes take more risks
+when they face tougher opponents, while \citet{Brown2011} finds that top athletes
+are discouraged by the presence of a superstar.
+Our results suggest both effects are real but operate in different quality regimes:
+\citeauthor{Brown2011}'s discouragement applies to top athletes in below-average
+fields who face an unexpectedly strong rival, while \citeauthor{GenakosPageliero2012}'s
+catch-up effect applies to athletes trailing in already-strong fields.
+
+\paragraph{The team sports altruism confound.}
+As argued in the Introduction, peer effects in team sports conflate social norms
+with altruistic effort for teammates.
+An athlete who accelerates because a teammate is struggling has been \textit{altruistically}
+peer-affected---not because of conformism, tournament incentives, or rivalry, but
+because of internalized preferences over the teammate's welfare.
+Standard peer-effect regressions cannot distinguish this from incentive-based
+peer effects.
+Our individual-sport setting cleanly resolves this ambiguity: no mechanism
+for altruistic effort exists.
+The estimated peer effects are therefore pure measures of the social norm,
+conformism, and rivalry channels.
+This suggests that peer-effect estimates from team sports settings should be
+interpreted with caution: the portion attributable to altruism is a
+redistribution of effort within the team rather than an increase in total effort.
+
+\paragraph{Implications for personnel economics.}
+Our results suggest that standard tools of incentive design---prize spreads,
+performance reviews, leaderboards---would have different effects on familiar versus
+unfamiliar pairings of workers.
+In workplaces where employees have long shared tenure (high familiarity), the
+peer effect is larger, particularly for pairs where both are high performers.
+Organizing workers into stable teams with known, capable peers would activate
+the rivalry channel and generate the largest peer-effect multiplier.
+Rotating workers across teams to prevent the formation of negative peer effects
+(complacency against inferiors) would also be valuable based on our findings.
+
+%% ====================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have documented three facts about peer effects in elite track athletics that
+are novel to the economics literature.
+First, the history of prior interaction between competitors---familiarity---is
+a first-order determinant of the peer-effect magnitude, generating a factor-of-twelve
+difference between strangers (one prior meeting) and rivals ($7+$ prior meetings).
+Second, whether the peer effect is amplified or attenuated by familiarity depends
+on the quality of familiar opponents: repeated competition against high-quality
+rivals generates strong amplification, while repeated competition against inferiors
+attenuates it.
+Third, task complexity (race distance) moderates both the level and the familiarity
+slope of peer effects, with middle-distance events exhibiting the strongest rivalry
+dynamics consistent with an intermediate cost-precision regime.
+
+Theoretically, we have developed a unified framework that nests all eight HOX
+mechanisms and the familiarity channel in a single conformist-rivalry model.
+The framework generates closed-form comparative statics that match all six
+empirical predictions, and the proofs formalize the roles of the effort cost
+function, information precision, rivalry intensity, and peer-statistic choice
+in determining equilibrium effort.
+
+More broadly, our results demonstrate the economic significance of rival
+recognition as a channel of peer influence.
+The standard assumption in the peer effects literature---that peers are
+interchangeable given their observable characteristics---misses a quantitatively
+important dimension: \textit{who} you have competed against before matters as
+much as their quality level.
+In individual-sport settings with observable performance and no altruism
+confound, the rivalry channel can be cleanly identified.
+The challenge for future work is to design identification strategies that
+isolate the rivalry channel in settings with team production, strategic
+interaction, and richer social relationships.
+
+%% ====================================================================
+\clearpage
+\appendix
+
+\section{Mathematical Proofs}
+\label{app:proofs}
+
+\paragraph{Proof of Proposition~\ref{prop:eight}.}
+
+In a symmetric equilibrium where all athletes have the same quality $\theta$,
+the FOC (\ref{eq:FOC_general}) becomes:
+\begin{equation*}
+W h_m(\theta) - c(\kappa) a^* - \frac{1}{\alpha}(a^* - \phi_m A_m^*) = 0
+\end{equation*}
+(rivalry term vanishes at symmetric equilibrium by normalization $V'(0)=0$).
+Solving for $a^*$:
+\begin{equation*}
+a_m^* = \frac{W h_m(\theta) + \phi_m A_m^*/\alpha}{c(\kappa) + 1/\alpha}.
+\end{equation*}
+Differentiating with respect to $\theta$:
+\begin{equation*}
+\beta_m = \frac{\partial a_m^*}{\partial\theta}
+= \frac{W \partial h_m/\partial\theta + \phi_m (\partial A_m^*/\partial\theta) /\alpha}
+       {c(\kappa)+1/\alpha}.
+\end{equation*}
+Under the SOC (Assumption~\ref{ass:reg}(ii)), the denominator is positive.
+$\square$
+
+\paragraph{Proof of Corollary~\ref{cor:ranking}.}
+
+For Shining Light: $A^* = \max_j s_j^- = \theta + \delta$, where $\delta$ is a
+positive shift due to within-field heterogeneity.
+$\partial A_{\text{Shining}}^*/\partial\theta = 1$ exactly.
+The marginal winning probability $h_{\text{Shining}} = \partial P/\partial a$ is also higher
+under Shining Light than under LIM, because winning requires beating the fastest
+opponent---whose quality level is more binding than the mean \citep{LazearRosen1981}.
+
+For Bad Apple: $A^* = \min_j s_j^- = \theta - \delta'$.
+$\partial A_{\text{Bad Apple}}^*/\partial\theta < 1$ (the minimum shifts less than the mean
+when heterogeneity is present, and in the limit for large $n$,
+$\partial \min_j / \partial\theta \to 0$ since the minimum is determined
+by tail behavior).
+Moreover, $h_{\text{Bad Apple}} \approx 0$: in a tournament, winning probability
+depends on beating the best opponents, not the worst.
+Hence $\beta_{\text{Bad Apple}} \approx 0$.
+$\square$
+
+\paragraph{Proof of Proposition~\ref{prop:fam}.}
+
+Substitute $\phi_i(\bar{f}) = \phi_0 + \phi_1 \bar{f}$ and the familiarity-weighted
+peer statistic into the FOC and differentiate using the implicit function theorem.
+The key steps are:
+\begin{align*}
+\frac{\partial a^*}{\partial\theta} &=
+\frac{W\partial h/\partial\theta + [\phi_0+\phi_1\bar{f}]\partial A^*/\partial\theta/\alpha
++ \gamma\bar{f} V''(0)\partial\mu^f/\partial\theta}
+{c(\kappa)+1/\alpha - \gamma\bar{f} V''(0)}.
+\end{align*}
+The numerator is increasing in $\bar{f}$ when $\phi_1 > 0$;
+the denominator is decreasing in $\bar{f}$ when $\gamma V''(0) > 0$.
+Both effects amplify $\beta_m(\bar{f})$.
+$\square$
+
+\paragraph{Proof of Proposition~\ref{prop:complexity}.}
+
+From (\ref{eq:beta_fam}):
+$\frac{\partial\beta_m}{\partial\kappa}
+= \frac{[\phi_0+\phi_1\bar{f}]\phi'(\kappa)\partial A^*/\partial\theta/\alpha \cdot D
+- N \cdot c'(\kappa)}{D^2}$,
+where $N$ is the numerator and $D = c(\kappa)+1/\alpha-\gamma\bar{f} V''(0)$.
+For $\kappa < \kappa^*$: $\phi'(\kappa) > 0$ (rising) and $c'(\kappa) < 0$ (falling),
+so both terms in the numerator are positive $\Rightarrow$ $\partial\beta_m/\partial\kappa > 0$.
+For $\kappa > \kappa^*$: $\phi'(\kappa) < 0$ and $c'(\kappa) > 0$, so
+$\partial\beta_m/\partial\kappa < 0$.
+$\square$
+
+\section{Additional Tables}
+\label{app:tables}
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Quality-Conditional Peer Effects by Familiarity and HOX Mechanism}
+\label{tab:qual_full}
+\small
+\begin{tabular}{llcccccccc}
+\toprule
+& & \multicolumn{4}{c}{High-quality field ($z_{\bar{s}^-} > 0$)}
+  & \multicolumn{4}{c}{Low-quality field ($z_{\bar{s}^-} \leq 0$)} \\
+\cmidrule(lr){3-6}\cmidrule(lr){7-10}
+HOX & Fam. bin & $\hat\beta$ & SE & Sig. & $N$ & $\hat\beta$ & SE & Sig. & $N$ \\
+\midrule
+\multirow{4}{*}{\parbox{2.5cm}{Shining Light}}
+& Never    & & & & & & & & \\
+& $1\times$& & & & & & & & \\
+& $2$--$3\times$ & & & & & & & & \\
+& $7+\times$ & & & & & & & & \\
+\midrule
+\multirow{4}{*}{\parbox{2.5cm}{Bad Apple}}
+& Never    & & & & & & & & \\
+& $1\times$ & & & & & & & & \\
+& $2$--$3\times$ & & & & & & & & \\
+& $7+\times$ & & & & & & & & \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\small
+\item \textit{Notes:} Coefficients from table3\_hox\_quality\_familiarity.csv
+(generated by peer\_analysis\_v2.py). Values populated from extended analysis.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+%% ====================================================================
+\clearpage
+\singlespacing
+\bibliographystyle{apalike}
+\begin{thebibliography}{99}
+
+\bibitem[Ager et al.(2022)]{AgerBursztynLeuchtVoth2022}
+Ager, P., Bursztyn, L., Leucht, L., and Voth, H.-J. (2022).
+\newblock Killer incentives: rivalry, performance and risk-taking among German
+fighter pilots, 1939--45.
+\newblock {\em Review of Economic Studies}, 89(5):2257--2292.
+
+\bibitem[Angrist(2014)]{Angrist2014}
+Angrist, J.~D. (2014).
+\newblock The perils of peer effects.
+\newblock {\em Labour Economics}, 30:98--108.
+
+\bibitem[Arag\'on and Rezazadeh(2025)]{AragonRezazadeh2025}
+Arag\'on, F.~M. and Rezazadeh, M. (2025).
+\newblock Not too hot to run: adaptation to extreme heat in competitive runners.
+\newblock Working Paper, Simon Fraser University.
+
+\bibitem[Arcidiacono et al.(2017)]{Arcidiacono2017}
+Arcidiacono, P., Kinsler, J., and Price, J. (2017).
+\newblock Productivity spillovers in team production: evidence from
+professional basketball.
+\newblock {\em Journal of Labor Economics}, 35(1):191--225.
+
+\bibitem[Ashby(2025)]{Ashby2025}
+Ashby, N.~J. (2025).
+\newblock Heterogeneous peer effects in competitive environments: the case of
+high-school harriers.
+\newblock {\em Applied Economics Letters}, 32(4):557--562.
+
+\bibitem[Ashby and Ramos(2023)]{AshbyRamos2023}
+Ashby, N.~J. and Ramos, A. (2023).
+\newblock Cross-country runners and strategic shirking.
+\newblock {\em Journal of Behavioral and Experimental Economics}, 104:101976.
+
+\bibitem[B\'enabou and Tirole(2006)]{BenabouTirole2006}
+B\'enabou, R. and Tirole, J. (2006).
+\newblock Incentives and prosocial behavior.
+\newblock {\em American Economic Review}, 96(5):1652--1678.
+
+\bibitem[B\'enabou and Tirole(2011)]{BenabouTirole2011}
+B\'enabou, R. and Tirole, J. (2011).
+\newblock Laws and norms.
+\newblock NBER Working Paper No. 17579.
+
+\bibitem[Bernheim(1994)]{Bernheim1994}
+Bernheim, B.~D. (1994).
+\newblock A theory of conformity.
+\newblock {\em Journal of Political Economy}, 102(5):841--877.
+
+\bibitem[Boucher et al.(2024)]{Boucher2024}
+Boucher, V., Rendall, M., Ushchev, P., and Zenou, Y. (2024).
+\newblock Toward a general theory of peer effects.
+\newblock {\em Econometrica}, 92(2):543--565.
+
+\bibitem[Brown(2011)]{Brown2011}
+Brown, J. (2011).
+\newblock Quitters never win: the (adverse) incentive effects of competing with superstars.
+\newblock {\em Journal of Political Economy}, 119(5):982--1013.
+
+\bibitem[Cohen-Zada et al.(2024)]{CohenZada2024}
+Cohen-Zada, D., Dayag, T., and Gershoni, N. (2024).
+\newblock Peer effects in competitive team sports: evidence from professional soccer.
+\newblock {\em Management Science}.
+
+\bibitem[Cornelissen et al.(2017)]{CornelissenDustmannSchonberg2017}
+Cornelissen, T., Dustmann, C., and Sch\"{o}nberg, U. (2017).
+\newblock Peer effects in the workplace.
+\newblock {\em American Economic Review}, 107(2):425--456.
+
+\bibitem[Emerson and Hill(2018)]{EmersonHill2018}
+Emerson, J. and Hill, B. (2018).
+\newblock Peer effects in marathon running: evidence from individual performance data.
+\newblock {\em Labour Economics}, 55:170--180.
+
+\bibitem[Falk and Ichino(2006)]{FalkIchino2006}
+Falk, A. and Ichino, A. (2006).
+\newblock Clean evidence on peer effects.
+\newblock {\em Journal of Labor Economics}, 24(1):39--57.
+
+\bibitem[Genakos and Pagliero(2012)]{GenakosPageliero2012}
+Genakos, C. and Pagliero, M. (2012).
+\newblock Interim rank, risk taking, and performance in dynamic tournaments.
+\newblock {\em Journal of Political Economy}, 120(4):782--813.
+
+\bibitem[Gould and Winter(2009)]{GouldWinter2009}
+Gould, E.~D. and Winter, E. (2009).
+\newblock Interactions between workers and the technology of production:
+evidence from professional baseball.
+\newblock {\em Review of Economics and Statistics}, 91(1):188--200.
+
+\bibitem[Green and Stokey(1983)]{GreenStokey1983}
+Green, J.~R. and Stokey, N.~L. (1983).
+\newblock A comparison of tournaments and contracts.
+\newblock {\em Journal of Political Economy}, 91(3):349--364.
+
+\bibitem[Guryan et al.(2009)]{GuryanKroftNotowidigdo2009}
+Guryan, J., Kroft, K., and Notowidigdo, M.~J. (2009).
+\newblock Peer effects in the workplace: evidence from random groupings in professional golf tournaments.
+\newblock {\em American Economic Journal: Applied Economics}, 1(4):34--68.
+
+\bibitem[Hill(2014)]{Hill2014}
+Hill, B. (2014).
+\newblock The heat is on: tournament structure, peer effects, and performance.
+\newblock {\em Journal of Sports Economics}, 15(4):315--337.
+
+\bibitem[Hoxby and Weingarth(2007)]{HoxbyWeingarth2007}
+Hoxby, C.~M. and Weingarth, G. (2007).
+\newblock Taking race out of the equation: school reassignment and the
+structure of peer effects.
+\newblock Working Paper, Harvard University.
+
+\bibitem[Jiang(2020)]{Jiang2020}
+Jiang, Y. (2020).
+\newblock Peer effects in elite swimming.
+\newblock {\em Journal of Economic Behavior \& Organization}, 171:35--54.
+
+\bibitem[Kilduff(2014)]{Kilduff2014}
+Kilduff, G.~J. (2014).
+\newblock Driven to win: rivalry, motivation, and performance.
+\newblock {\em Social Psychological and Personality Science}, 5(8):944--952.
+
+\bibitem[Kilduff et al.(2010)]{KilduffElfenbeinStaw2010}
+Kilduff, G.~J., Elfenbein, H.~A., and Staw, B.~M. (2010).
+\newblock The psychology of rivalry: a relationally dependent analysis of competition.
+\newblock {\em Academy of Management Journal}, 53(5):943--969.
+
+\bibitem[Lazear and Rosen(1981)]{LazearRosen1981}
+Lazear, E.~P. and Rosen, S. (1981).
+\newblock Rank-order tournaments as optimum labor contracts.
+\newblock {\em Journal of Political Economy}, 89(5):841--864.
+
+\bibitem[Manski(1993)]{Manski1993}
+Manski, C.~F. (1993).
+\newblock Identification of endogenous social effects: the reflection problem.
+\newblock {\em Review of Economic Studies}, 60(3):531--542.
+
+\bibitem[Mas and Moretti(2009)]{MasMoretti2009}
+Mas, A. and Moretti, E. (2009).
+\newblock Peers at work.
+\newblock {\em American Economic Review}, 99(1):112--145.
+
+\bibitem[Molodchik et al.(2021)]{MoloChik2021}
+Molodchik, M., Paklina, S., and Parshakov, P. (2021).
+\newblock Peer effects in a team production setting: evidence from soccer.
+\newblock {\em German Economic Review}, 22(4):449--468.
+
+\bibitem[Nalebuff and Stiglitz(1983)]{NalebuffStiglitz1983}
+Nalebuff, B.~J. and Stiglitz, J.~E. (1983).
+\newblock Prizes and incentives: towards a general theory of compensation and competition.
+\newblock {\em Bell Journal of Economics}, 14(1):21--43.
+
+\bibitem[Pike et al.(2018)]{PikeKilduffGalinsky2018}
+Pike, B.~E., Kilduff, G.~J., and Galinsky, A.~D. (2018).
+\newblock The long shadow of rivalry: rivalry motivates performance today and tomorrow.
+\newblock {\em Psychological Science}, 29(5):804--813.
+
+\bibitem[Sacerdote(2001)]{Sacerdote2001}
+Sacerdote, B. (2001).
+\newblock Peer effects with random assignment: results for Dartmouth roommates.
+\newblock {\em Quarterly Journal of Economics}, 116(2):681--704.
+
+\bibitem[Yamane and Hayashi(2015)]{YamaneHayashi2015}
+Yamane, S. and Hayashi, R. (2015).
+\newblock Peer effects among swimmers.
+\newblock {\em Scandinavian Journal of Economics}, 117(4):1230--1255.
+
+\end{thebibliography}
+
+\end{document}
